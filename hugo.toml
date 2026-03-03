@@ -1,0 +1,43 @@
+baseURL = "https://finksecurity.com"
+languageCode = "en-us"
+title = "Fink Security"
+theme = "PaperMod"
+
+[pagination]
+  pagerSize = 10
+
+[params]
+  defaultTheme = "dark"
+  ShowReadingTime = true
+  ShowShareButtons = false
+  ShowPostNavLinks = true
+
+  [params.homeInfoParams]
+    Title = "Fink Security"
+    Content = "Professional security audits, penetration testing, OSINT, and threat intelligence — powered by ESTHER, our autonomous AI security agent."
+
+  [[params.socialIcons]]
+    name = "github"
+    url = "https://github.com/FinkSecurity"
+
+[menu]
+  [[menu.main]]
+    identifier = "services"
+    name = "Services"
+    url = "/services"
+    weight = 1
+  [[menu.main]]
+    identifier = "about"
+    name = "About"
+    url = "/about"
+    weight = 2
+  [[menu.main]]
+    identifier = "blog"
+    name = "Blog"
+    url = "/blog"
+    weight = 3
+  [[menu.main]]
+    identifier = "contact"
+    name = "Contact"
+    url = "/contact"
+    weight = 4
