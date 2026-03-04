@@ -800,24 +800,24 @@
     <h2>Start a<br><span style="color:var(--cyan)">Conversation</span></h2>
     <p style="color:var(--muted);margin-top:12px;">All inquiries are handled confidentially. We respond within 24 hours.</p>
 
-    <div class="contact-form">
+    <form id="contact-form" class="contact-form" action="https://formspree.io/f/mreanvvq" method="POST">
       <div class="form-row">
         <div class="field-group">
           <label>First Name</label>
-          <input type="text" placeholder="Jane">
+          <input type="text" name="first_name" placeholder="Jane" required>
         </div>
         <div class="field-group">
           <label>Last Name</label>
-          <input type="text" placeholder="Smith">
+          <input type="text" name="last_name" placeholder="Smith" required>
         </div>
       </div>
       <div class="field-group">
         <label>Organization Email</label>
-        <input type="email" placeholder="jane@company.com">
+        <input type="email" name="email" placeholder="jane@company.com" required>
       </div>
       <div class="field-group">
         <label>Service Interest</label>
-        <select>
+        <select name="service">
           <option>Penetration Testing</option>
           <option>Red Team Operation</option>
           <option>Threat Intelligence</option>
@@ -829,10 +829,57 @@
       </div>
       <div class="field-group">
         <label>Message</label>
-        <textarea rows="5" placeholder="Describe your environment, scope, or security concerns..."></textarea>
+        <textarea name="message" rows="5" placeholder="Describe your environment, scope, or security concerns..."></textarea>
       </div>
-      <button class="submit-btn">SEND MESSAGE →</button>
-    </div>
+      <div id="form-status" style="display:none;margin-top:8px;padding:16px;font-family:'Share Tech Mono',monospace;font-size:14px;letter-spacing:0.05em;"></div>
+      <button type="submit" class="submit-btn" id="submit-btn">SEND SECURE MESSAGE →</button>
+    </form>
+    <script>
+    (function(){
+      var form = document.getElementById('contact-form');
+      var btn = document.getElementById('submit-btn');
+      var status = document.getElementById('form-status');
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        btn.textContent = 'SENDING...';
+        btn.disabled = true;
+        btn.style.opacity = '0.7';
+        fetch('https://formspree.io/f/mreanvvq', {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        }).then(function(r){
+          if(r.ok){
+            form.reset();
+            btn.style.display = 'none';
+            status.style.display = 'block';
+            status.style.background = 'rgba(34,211,238,0.08)';
+            status.style.border = '1px solid rgba(34,211,238,0.35)';
+            status.style.color = '#22d3ee';
+            status.innerHTML = '[+] Message received. We will respond within 24 hours.';
+          } else {
+            btn.textContent = 'SEND SECURE MESSAGE →';
+            btn.disabled = false;
+            btn.style.opacity = '1';
+            status.style.display = 'block';
+            status.style.background = 'rgba(239,68,68,0.08)';
+            status.style.border = '1px solid rgba(239,68,68,0.35)';
+            status.style.color = '#ef4444';
+            status.innerHTML = '[!] Submission failed. Email us directly: finksecopsteam@gmail.com';
+          }
+        }).catch(function(){
+          btn.textContent = 'SEND SECURE MESSAGE →';
+          btn.disabled = false;
+          btn.style.opacity = '1';
+          status.style.display = 'block';
+          status.style.background = 'rgba(239,68,68,0.08)';
+          status.style.border = '1px solid rgba(239,68,68,0.35)';
+          status.style.color = '#ef4444';
+          status.innerHTML = '[!] Network error. Email us directly: finksecopsteam@gmail.com';
+        });
+      });
+    })();
+    </script>
   </div>
 </section>
 
