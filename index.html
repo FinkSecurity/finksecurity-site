@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fink Security — Cybersecurity Services</title>
+<meta name="description" content="Fink Security delivers penetration testing, threat intelligence, and security assessments powered by ESTHER, an autonomous AI security agent.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #0a0a12;
+    --bg2:       #0f1117;
+    --card:      #1e293b;
+    --cyan:      #22d3ee;
+    --cyan-lt:   #67e8f9;
+    --cyan-xlt:  #a5f3fc;
+    --cyan-dim:  #0e7490;
+    --white:     #f3f4f6;
+    --muted:     #94a3b8;
+    --border:    rgba(34,211,238,0.18);
+    --glow:      0 0 24px rgba(34,211,238,0.35);
+    --glow-lg:   0 0 60px rgba(34,211,238,0.2);
+    --font-mono: 'Share Tech Mono', monospace;
+    --font-head: 'Exo 2', sans-serif;
+    --font-body: 'Inter', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 1000; opacity: 0.4;
+  }
+
+  .grid-bg {
+    background-image:
+      linear-gradient(rgba(34,211,238,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(34,211,238,0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  @keyframes scan {
+    0% { transform: translateY(-100vh); }
+    100% { transform: translateY(100vh); }
+  }
+  .scanline {
+    position: fixed; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(transparent, rgba(34,211,238,0.08), transparent);
+    pointer-events: none; z-index: 999;
+    animation: scan 8s linear infinite;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px;
+    height: 68px;
+    background: rgba(10,10,18,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    display: flex; align-items: center; gap: 12px;
+    text-decoration: none;
+  }
+
+  .nav-shield { width: 38px; height: 38px; }
+
+  .nav-wordmark {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 0.06em;
+    color: var(--white);
+  }
+  .nav-wordmark span { color: var(--cyan); }
+
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+
+  .nav-links a {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: -4px; left: 0; right: 0; height: 1px;
+    background: var(--cyan);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.25s ease;
+  }
+  .nav-links a:hover { color: var(--cyan); }
+  .nav-links a:hover::after { transform: scaleX(1); }
+
+  .nav-cta {
+    padding: 8px 22px;
+    border: 1px solid var(--cyan);
+    background: transparent;
+    color: var(--cyan);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+  }
+  .nav-cta:hover {
+    background: rgba(34,211,238,0.1);
+    box-shadow: var(--glow);
+  }
+
+  /* HERO */
+  #home {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 120px 48px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 700px; height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(34,211,238,0.12) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .hero-glow-right {
+    position: absolute;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(34,211,238,0.06) 0%, transparent 70%);
+    top: 20%; right: 5%;
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative; z-index: 2;
+    max-width: 640px;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--cyan);
+    letter-spacing: 0.12em;
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    margin-bottom: 32px;
+    background: rgba(34,211,238,0.05);
+  }
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--cyan);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--cyan);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%,100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  h1 {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: clamp(42px, 6vw, 80px);
+    line-height: 1.05;
+    letter-spacing: 0.01em;
+    margin-bottom: 24px;
+  }
+  h1 .accent { color: var(--cyan); display: block; }
+
+  .hero-sub {
+    font-size: 17px;
+    color: var(--muted);
+    max-width: 520px;
+    margin-bottom: 44px;
+    line-height: 1.75;
+  }
+
+  .btn-row { display: flex; gap: 16px; flex-wrap: wrap; }
+
+  .btn-primary {
+    padding: 14px 32px;
+    background: var(--cyan);
+    color: var(--bg);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    border: none;
+    cursor: pointer;
+    transition: box-shadow 0.25s, transform 0.15s;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn-primary:hover {
+    box-shadow: 0 0 40px rgba(34,211,238,0.5);
+    transform: translateY(-1px);
+  }
+
+  .btn-ghost {
+    padding: 14px 32px;
+    background: transparent;
+    color: var(--cyan-lt);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    border: 1px solid rgba(34,211,238,0.35);
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn-ghost:hover {
+    border-color: var(--cyan);
+    background: rgba(34,211,238,0.06);
+  }
+
+  /* Hero shield */
+  .hero-visual {
+    position: absolute; right: 8%; top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+  }
+  .hero-shield-wrap {
+    position: relative;
+    width: 340px; height: 400px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .shield-svg {
+    filter: drop-shadow(0 0 30px rgba(34,211,238,0.4))
+            drop-shadow(0 0 80px rgba(34,211,238,0.15));
+    animation: float 6s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+  .orbit {
+    position: absolute;
+    border: 1px solid rgba(34,211,238,0.2);
+    border-radius: 50%;
+    animation: spin linear infinite;
+  }
+  .orbit-1 { width: 320px; height: 320px; animation-duration: 20s; }
+  .orbit-2 { width: 240px; height: 240px; animation-duration: 14s; animation-direction: reverse; }
+  @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  .orbit-dot {
+    position: absolute;
+    width: 7px; height: 7px;
+    background: var(--cyan);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--cyan);
+    top: -4px; left: 50%; transform: translateX(-50%);
+  }
+
+  /* SECTION SHARED */
+  section { padding: 100px 48px; position: relative; }
+
+  .section-tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--cyan);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-tag::before { content: '//'; color: var(--cyan-dim); }
+
+  h2 {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: clamp(32px, 4vw, 52px);
+    line-height: 1.15;
+    letter-spacing: 0.01em;
+    margin-bottom: 16px;
+  }
+
+  .section-sub {
+    color: var(--muted);
+    font-size: 16px;
+    max-width: 520px;
+    margin-bottom: 64px;
+  }
+
+  /* SERVICES */
+  #services { background: var(--bg2); }
+  #services .grid-bg { position: absolute; inset: 0; opacity: 0.5; pointer-events: none; }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    position: relative; z-index: 2;
+  }
+
+  .service-card {
+    background: var(--bg2);
+    padding: 40px 36px;
+    transition: background 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: var(--cyan);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.35s ease;
+  }
+  .service-card:hover { background: rgba(30,41,59,0.7); }
+  .service-card:hover::before { transform: scaleX(1); }
+
+  .service-icon { width: 48px; height: 48px; margin-bottom: 24px; color: var(--cyan); }
+  .service-card h3 {
+    font-family: var(--font-head);
+    font-size: 20px; font-weight: 600;
+    margin-bottom: 12px; letter-spacing: 0.01em;
+  }
+  .service-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+  .service-num {
+    position: absolute; top: 20px; right: 24px;
+    font-family: var(--font-mono); font-size: 11px;
+    color: rgba(34,211,238,0.25); letter-spacing: 0.1em;
+  }
+
+  /* ABOUT */
+  #about {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .about-visual { position: relative; height: 460px; }
+  .about-terminal {
+    background: var(--card);
+    border: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    padding: 0; height: 100%; overflow: hidden;
+    box-shadow: var(--glow-lg);
+  }
+  .terminal-bar {
+    background: rgba(34,211,238,0.08);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-r { background: #ef4444; }
+  .dot-y { background: #eab308; }
+  .dot-g { background: #22c55e; }
+  .terminal-title {
+    font-size: 11px; color: var(--muted);
+    margin-left: auto; margin-right: auto;
+    letter-spacing: 0.08em;
+  }
+  .terminal-body { padding: 20px; line-height: 2; }
+  .t-prompt { color: var(--cyan); }
+  .t-cmd    { color: var(--white); }
+  .t-out    { color: var(--muted); padding-left: 16px; }
+  .t-ok     { color: #22c55e; }
+  .t-warn   { color: #eab308; }
+  .t-cursor {
+    display: inline-block; width: 8px; height: 14px;
+    background: var(--cyan);
+    animation: blink 1.1s step-end infinite;
+    vertical-align: middle;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  .about-content .section-tag { margin-top: 0; }
+  .about-points { list-style: none; margin-top: 32px; display: flex; flex-direction: column; gap: 16px; }
+  .about-points li {
+    display: flex; align-items: flex-start; gap: 14px;
+    font-size: 15px; color: var(--muted); line-height: 1.6;
+  }
+  .about-points li::before { content: '›'; color: var(--cyan); font-size: 20px; line-height: 1.2; flex-shrink: 0; }
+
+  /* BLOG */
+  #blog { background: var(--bg2); }
+  .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .blog-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    color: inherit;
+  }
+  .blog-card:hover { border-color: var(--cyan); transform: translateY(-4px); }
+  .blog-thumb {
+    height: 160px; background: var(--card);
+    position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .blog-icon-lg { width: 60px; height: 60px; color: var(--cyan); opacity: 0.4; }
+  .blog-thumb-glow {
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 50% 60%, rgba(34,211,238,0.12), transparent 70%);
+  }
+  .blog-body { padding: 24px; }
+  .blog-tag {
+    font-family: var(--font-mono); font-size: 10px; color: var(--cyan);
+    letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 10px;
+  }
+  .blog-card h3 { font-family: var(--font-head); font-size: 17px; font-weight: 600; line-height: 1.4; margin-bottom: 10px; }
+  .blog-card p { font-size: 13px; color: var(--muted); line-height: 1.65; }
+  .blog-meta {
+    margin-top: 16px; font-family: var(--font-mono); font-size: 11px;
+    color: rgba(148,163,184,0.6); letter-spacing: 0.06em; display: flex; gap: 16px;
+  }
+
+  /* CONTACT */
+  #contact { text-align: center; position: relative; overflow: hidden; }
+  #contact::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 100%, rgba(34,211,238,0.08) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .contact-wrap { max-width: 640px; margin: 0 auto; position: relative; z-index: 2; }
+  .contact-form { display: flex; flex-direction: column; gap: 16px; margin-top: 48px; text-align: left; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .field-group { display: flex; flex-direction: column; gap: 6px; }
+  .field-group label {
+    font-family: var(--font-mono); font-size: 11px; color: var(--cyan);
+    letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .field-group input,
+  .field-group textarea,
+  .field-group select {
+    background: var(--card); border: 1px solid var(--border);
+    color: var(--white); font-family: var(--font-mono); font-size: 14px;
+    padding: 12px 16px; outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%; resize: none;
+  }
+  .field-group input:focus,
+  .field-group textarea:focus,
+  .field-group select:focus {
+    border-color: var(--cyan);
+    box-shadow: 0 0 0 2px rgba(34,211,238,0.1);
+  }
+  .field-group select option { background: var(--card); }
+  .submit-btn {
+    width: 100%; padding: 16px; background: var(--cyan); color: var(--bg);
+    border: none; font-family: var(--font-mono); font-size: 15px; font-weight: 700;
+    letter-spacing: 0.1em; cursor: pointer; transition: box-shadow 0.25s; margin-top: 8px;
+  }
+  .submit-btn:hover { box-shadow: 0 0 40px rgba(34,211,238,0.5); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border); padding: 40px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--bg);
+  }
+  .footer-logo { font-family: var(--font-head); font-weight: 900; font-size: 16px; letter-spacing: 0.08em; color: var(--white); }
+  .footer-logo span { color: var(--cyan); }
+  .footer-links { display: flex; gap: 28px; list-style: none; }
+  .footer-links a { font-family: var(--font-mono); font-size: 12px; color: var(--muted); text-decoration: none; letter-spacing: 0.05em; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--cyan); }
+  .footer-copy { font-family: var(--font-mono); font-size: 11px; color: rgba(148,163,184,0.4); letter-spacing: 0.06em; }
+
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border) 30%, var(--border) 70%, transparent);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 0 24px; }
+    .nav-links { display: none; }
+    #home { padding: 100px 24px 60px; }
+    .hero-visual { display: none; }
+    #about { grid-template-columns: 1fr; gap: 40px; }
+    .about-visual { height: 300px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .blog-grid { grid-template-columns: 1fr; }
+    section { padding: 60px 24px; }
+    footer { flex-direction: column; gap: 24px; text-align: center; }
+    .footer-links { flex-wrap: wrap; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+<div class="scanline"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#home">
+    <svg class="nav-shield" viewBox="0 0 100 116" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M50 4L96 22V62C96 84 73 105 50 112C27 105 4 84 4 62V22L50 4Z" fill="#1e293b" stroke="#22d3ee" stroke-width="3"/>
+      <path d="M50 18L82 31V60C82 76 67 91 50 97C33 91 18 76 18 60V31L50 18Z" fill="#0f1117" stroke="rgba(103,232,249,0.4)" stroke-width="1.5"/>
+      <circle cx="50" cy="56" r="6" fill="#22d3ee" stroke="#a5f3fc" stroke-width="1.5"/>
+      <line x1="50" y1="50" x2="50" y2="32" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="50" y1="50" x2="66" y2="42" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="50" y1="50" x2="70" y2="60" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="50" y1="50" x2="60" y2="76" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="50" y1="50" x2="34" y2="76" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="50" y1="50" x2="30" y2="60" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="50" y1="50" x2="34" y2="42" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round"/>
+      <circle cx="50" cy="30" r="4" fill="#67e8f9"/>
+      <circle cx="68" cy="40" r="4" fill="#67e8f9"/>
+      <circle cx="72" cy="60" r="4" fill="#67e8f9"/>
+      <circle cx="62" cy="78" r="4" fill="#67e8f9"/>
+      <circle cx="38" cy="78" r="4" fill="#67e8f9"/>
+      <circle cx="28" cy="60" r="4" fill="#67e8f9"/>
+      <circle cx="32" cy="40" r="4" fill="#67e8f9"/>
+    </svg>
+    <span class="nav-wordmark">FINK<span> SECURITY</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#blog">Blog</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">GET IN TOUCH →</a>
+</nav>
+
+<!-- HERO -->
+<section id="home" class="grid-bg">
+  <div class="hero-glow"></div>
+  <div class="hero-glow-right"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">AI-POWERED SECURITY RESEARCH</div>
+    <h1>
+      Security Built for<br>
+      <span class="accent">the Real Threat.</span>
+    </h1>
+    <p class="hero-sub">
+      Fink Security delivers penetration testing, threat intelligence, and security assessments — powered by ESTHER, our autonomous AI security agent built for enumeration, surveillance, and threat hunting.
+    </p>
+    <div class="btn-row">
+      <a href="#contact" class="btn-primary">START A CONVERSATION</a>
+      <a href="#services" class="btn-ghost">VIEW SERVICES</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="hero-shield-wrap">
+      <div class="orbit orbit-1"><div class="orbit-dot"></div></div>
+      <div class="orbit orbit-2"><div class="orbit-dot"></div></div>
+      <svg class="shield-svg" width="260" height="300" viewBox="0 0 100 116" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="sg" cx="50%" cy="40%" r="60%">
+            <stop offset="0%" stop-color="#1e293b"/>
+            <stop offset="100%" stop-color="#0a0a12"/>
+          </radialGradient>
+        </defs>
+        <path d="M50 4L96 22V62C96 84 73 105 50 112C27 105 4 84 4 62V22L50 4Z" fill="url(#sg)" stroke="#22d3ee" stroke-width="2.5"/>
+        <path d="M50 16L84 30V60C84 78 68 94 50 100C32 94 16 78 16 60V30L50 16Z" fill="none" stroke="rgba(103,232,249,0.3)" stroke-width="1"/>
+        <circle cx="50" cy="56" r="8" fill="#22d3ee" stroke="#a5f3fc" stroke-width="2"/>
+        <circle cx="50" cy="56" r="4" fill="#a5f3fc"/>
+        <line x1="50" y1="48" x2="50" y2="26" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="50" y1="64" x2="50" y2="86" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="58" y1="51" x2="74" y2="41" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="42" y1="51" x2="26" y2="41" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="58" y1="61" x2="74" y2="71" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="42" y1="61" x2="26" y2="71" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="50" cy="24" r="5" fill="#67e8f9"/>
+        <circle cx="50" cy="88" r="5" fill="#67e8f9"/>
+        <circle cx="76" cy="39" r="5" fill="#67e8f9"/>
+        <circle cx="24" cy="39" r="5" fill="#67e8f9"/>
+        <circle cx="76" cy="73" r="5" fill="#67e8f9"/>
+        <circle cx="24" cy="73" r="5" fill="#67e8f9"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="grid-bg" style="position:absolute;inset:0;opacity:0.4;pointer-events:none;"></div>
+  <div style="position:relative;z-index:2;">
+    <div class="section-tag">CAPABILITIES</div>
+    <h2>What We <span style="color:var(--cyan)">Deliver</span></h2>
+    <p class="section-sub">Every engagement is scoped to your environment. Every finding comes with a remediation path.</p>
+
+    <div class="services-grid">
+
+      <div class="service-card">
+        <span class="service-num">01</span>
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V7l-9-5z"/>
+          <path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <h3>Penetration Testing</h3>
+        <p>External and internal network assessments, web application testing, and API security reviews. Scoped, authorized, and fully documented with actionable remediation steps.</p>
+      </div>
+
+      <div class="service-card">
+        <span class="service-num">02</span>
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35" stroke-linecap="round"/>
+          <path d="M8 11h6M11 8v6" stroke-linecap="round"/>
+        </svg>
+        <h3>Threat Intelligence</h3>
+        <p>Powered by ESTHER — continuous passive reconnaissance, OSINT collection, and threat correlation to surface risks before they become incidents.</p>
+      </div>
+
+      <div class="service-card">
+        <span class="service-num">03</span>
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <h3>Security Assessments</h3>
+        <p>Structured security reviews against NIST CSF, CIS Controls, and industry frameworks. Identify gaps, prioritize fixes, and build a roadmap your team can execute.</p>
+      </div>
+
+      <div class="service-card">
+        <span class="service-num">04</span>
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4" stroke-linecap="round"/>
+          <path d="M7 8l3 3-3 3" stroke-linecap="round" stroke-linejoin="round"/><line x1="11" y1="14" x2="15" y2="14" stroke-linecap="round"/>
+        </svg>
+        <h3>Red Team Operations</h3>
+        <p>Adversary simulation across technical, physical, and social engineering vectors. Test how your people, processes, and technology respond under real attack conditions.</p>
+      </div>
+
+      <div class="service-card">
+        <span class="service-num">05</span>
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+          <polyline points="3.29 7 12 12 20.71 7"/><line x1="12" y1="22" x2="12" y2="12"/>
+        </svg>
+        <h3>Cloud Security Review</h3>
+        <p>AWS, GCP, and Azure configuration audits, IAM privilege analysis, and infrastructure-as-code scanning. Know what's exposed before an attacker does.</p>
+      </div>
+
+      <div class="service-card">
+        <span class="service-num">06</span>
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13" stroke-linecap="round"/>
+          <line x1="16" y1="17" x2="8" y2="17" stroke-linecap="round"/>
+        </svg>
+        <h3>Security Advisory</h3>
+        <p>Fractional CISO services, security program development, policy writing, and board-level reporting. Security leadership without the full-time overhead.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-visual">
+    <div class="about-terminal">
+      <div class="terminal-bar">
+        <span class="dot dot-r"></span>
+        <span class="dot dot-y"></span>
+        <span class="dot dot-g"></span>
+        <span class="terminal-title">esther@finksec:~ — recon</span>
+      </div>
+      <div class="terminal-body">
+        <div><span class="t-prompt">esther@finksec</span><span style="color:var(--muted)">:~$</span> <span class="t-cmd">./recon --target client.com --mode passive</span></div>
+        <div class="t-out">[*] Initializing OSINT modules...</div>
+        <div class="t-out">[*] Running passive DNS enumeration</div>
+        <div class="t-out t-ok">[+] Subdomains discovered: 12</div>
+        <div class="t-out t-ok">[+] Certificate transparency records: 6</div>
+        <div class="t-out t-warn">[!] Exposed service on non-standard port — flagged</div>
+        <br>
+        <div><span class="t-prompt">esther@finksec</span><span style="color:var(--muted)">:~$</span> <span class="t-cmd">mitre-map --technique T1190</span></div>
+        <div class="t-out">[*] Loading MITRE ATT&CK framework...</div>
+        <div class="t-out">[*] Mapping findings to technique matrix</div>
+        <div class="t-out t-ok">[+] Technique mapped: Exploit Public-Facing Application</div>
+        <div class="t-out t-ok">[+] Remediation path: generated</div>
+        <br>
+        <div><span class="t-prompt">esther@finksec</span><span style="color:var(--muted)">:~$</span> <span class="t-cmd">generate-report --format executive</span></div>
+        <div class="t-out t-ok">[+] Report compiled — ready for delivery</div>
+        <div><span class="t-prompt">esther@finksec</span><span style="color:var(--muted)">:~$</span> <span class="t-cursor"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="about-content">
+    <div class="section-tag">WHO WE ARE</div>
+    <h2>Security-first.<br><span style="color:var(--cyan)">From day one.</span></h2>
+    <p style="color:var(--muted);font-size:15px;margin-top:16px;line-height:1.75;">
+      Fink Security is a cybersecurity firm built around a simple idea: security research should be transparent, repeatable, and actionable. We combine hands-on technical expertise with ESTHER — our autonomous AI security agent — to deliver intelligence you can act on.
+    </p>
+    <ul class="about-points">
+      <li>Powered by ESTHER — autonomous AI for continuous reconnaissance, threat hunting, and OSINT</li>
+      <li>Every engagement is scoped and authorized in writing before work begins</li>
+      <li>Findings are mapped to MITRE ATT&CK and prioritized by real-world risk</li>
+      <li>Reports written for two audiences: your security team and your leadership</li>
+      <li>Follow our research at <a href="https://estherops.tech" style="color:var(--cyan);">estherops.tech</a></li>
+    </ul>
+    <div style="margin-top:36px;">
+      <a href="#contact" class="btn-primary">WORK WITH US</a>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- BLOG -->
+<section id="blog">
+  <div class="section-tag">INTELLIGENCE FEED</div>
+  <h2>Latest from <span style="color:var(--cyan)">ESTHER</span></h2>
+  <p class="section-sub">Security research and findings published directly from ESTHER's lab. Real commands, real output, real findings.</p>
+
+  <div class="blog-grid">
+
+    <a class="blog-card" href="https://estherops.tech/posts/sql-injection-dvwa/" target="_blank">
+      <div class="blog-thumb">
+        <div class="blog-thumb-glow"></div>
+        <svg class="blog-icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+          <path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V7l-9-5z"/>
+        </svg>
+      </div>
+      <div class="blog-body">
+        <div class="blog-tag">LAB RESEARCH</div>
+        <h3>SQL Injection in DVWA: Hands-On Reconnaissance & Exploitation</h3>
+        <p>ESTHER documents real SQL injection findings against DVWA — actual curl commands, captured output, and MITRE T1190 mapping.</p>
+        <div class="blog-meta"><span>MAR 03 2026</span><span>4 MIN READ</span></div>
+      </div>
+    </a>
+
+    <div class="blog-card" style="cursor:default;opacity:0.5;">
+      <div class="blog-thumb">
+        <div class="blog-thumb-glow"></div>
+        <svg class="blog-icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+          <rect x="2" y="3" width="20" height="14" rx="2"/>
+          <path d="M7 8l3 3-3 3M11 14h4" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="blog-body">
+        <div class="blog-tag">COMING SOON</div>
+        <h3>Command Injection — T1059: ESTHER's Next Lab Report</h3>
+        <p>OS command injection against DVWA — payload testing, execution chains, and defensive recommendations.</p>
+        <div class="blog-meta"><span>IN PROGRESS</span></div>
+      </div>
+    </div>
+
+    <div class="blog-card" style="cursor:default;opacity:0.5;">
+      <div class="blog-thumb">
+        <div class="blog-thumb-glow"></div>
+        <svg class="blog-icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+        </svg>
+      </div>
+      <div class="blog-body">
+        <div class="blog-tag">COMING SOON</div>
+        <h3>Building ESTHER: Autonomous AI Security Research on Kali Linux</h3>
+        <p>How we built and deployed an autonomous AI security agent — architecture decisions, lessons learned, and what comes next.</p>
+        <div class="blog-meta"><span>IN PROGRESS</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-wrap">
+    <div class="section-tag" style="justify-content:center;">SECURE CHANNEL</div>
+    <h2>Start a<br><span style="color:var(--cyan)">Conversation</span></h2>
+    <p style="color:var(--muted);margin-top:12px;">All inquiries are handled confidentially. We respond within 24 hours.</p>
+
+    <div class="contact-form">
+      <div class="form-row">
+        <div class="field-group">
+          <label>First Name</label>
+          <input type="text" placeholder="Jane">
+        </div>
+        <div class="field-group">
+          <label>Last Name</label>
+          <input type="text" placeholder="Smith">
+        </div>
+      </div>
+      <div class="field-group">
+        <label>Organization Email</label>
+        <input type="email" placeholder="jane@company.com">
+      </div>
+      <div class="field-group">
+        <label>Service Interest</label>
+        <select>
+          <option>Penetration Testing</option>
+          <option>Red Team Operation</option>
+          <option>Threat Intelligence</option>
+          <option>Security Assessment</option>
+          <option>Cloud Security Review</option>
+          <option>Security Advisory / CISO</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label>Message</label>
+        <textarea rows="5" placeholder="Describe your environment, scope, or security concerns..."></textarea>
+      </div>
+      <button class="submit-btn">SEND MESSAGE →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">FINK<span> SECURITY</span></div>
+  <ul class="footer-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#blog">Blog</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 FINK SECURITY · finksecurity.com</div>
+</footer>
+
+</body>
+</html>
