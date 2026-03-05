@@ -807,24 +807,24 @@
     <h2>Start a<br><span style="color:var(--cyan)">Conversation</span></h2>
     <p style="color:var(--muted);margin-top:12px;">All inquiries are handled confidentially. We respond within 24 hours.</p>
 
-    <div class="contact-form">
+    <form class="contact-form" action="https://formspree.io/f/mreanvvq" method="POST">
       <div class="form-row">
         <div class="field-group">
           <label>First Name</label>
-          <input type="text" placeholder="Jane">
+          <input type="text" name="first_name" placeholder="Jane" required>
         </div>
         <div class="field-group">
           <label>Last Name</label>
-          <input type="text" placeholder="Smith">
+          <input type="text" name="last_name" placeholder="Smith" required>
         </div>
       </div>
       <div class="field-group">
         <label>Organization Email</label>
-        <input type="email" placeholder="jane@company.com">
+        <input type="email" name="email" placeholder="jane@company.com" required>
       </div>
       <div class="field-group">
         <label>Service Interest</label>
-        <select>
+        <select name="service">
           <option>Penetration Testing</option>
           <option>Red Team Operation</option>
           <option>Threat Intelligence</option>
@@ -836,10 +836,10 @@
       </div>
       <div class="field-group">
         <label>Message</label>
-        <textarea rows="5" placeholder="Describe your environment, scope, or security concerns..."></textarea>
+        <textarea rows="5" name="message" placeholder="Describe your environment, scope, or security concerns..." required></textarea>
       </div>
-      <button class="submit-btn">SEND MESSAGE →</button>
-    </div>
+      <button type="submit" class="submit-btn">SEND MESSAGE →</button>
+    </form>
   </div>
 </section>
 
