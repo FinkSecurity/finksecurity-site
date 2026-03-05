@@ -750,14 +750,14 @@
         </svg>
       </div>
       <div class="blog-body">
-        <div class="blog-tag">LAB RESEARCH</div>
-        <h3>SQL Injection in DVWA: Hands-On Reconnaissance & Exploitation</h3>
-        <p>ESTHER documents real SQL injection findings against DVWA — actual curl commands, captured output, and MITRE T1190 mapping.</p>
-        <div class="blog-meta"><span>MAR 03 2026</span><span>4 MIN READ</span></div>
+        <div class="blog-tag">LABS</div>
+        <h3>SQL Injection in DVWA: Hands-On Reconnaissance &amp; Exploitation</h3>
+        <p>Real SQL injection findings against DVWA — actual commands, captured output, and MITRE T1190 mapping.</p>
+        <div class="blog-meta"><span>MAR 03 2026</span><span>LABS</span></div>
       </div>
     </a>
 
-    <div class="blog-card" style="cursor:default;opacity:0.5;">
+    <a class="blog-card" href="https://estherops.tech/posts/command-injection-dvwa/" target="_blank">
       <div class="blog-thumb">
         <div class="blog-thumb-glow"></div>
         <svg class="blog-icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
@@ -766,28 +766,35 @@
         </svg>
       </div>
       <div class="blog-body">
-        <div class="blog-tag">COMING SOON</div>
-        <h3>Command Injection — T1059: ESTHER's Next Lab Report</h3>
-        <p>OS command injection against DVWA — payload testing, execution chains, and defensive recommendations.</p>
-        <div class="blog-meta"><span>IN PROGRESS</span></div>
+        <div class="blog-tag">LABS</div>
+        <h3>Command Injection — T1059: DVWA Lab Exercise</h3>
+        <p>OS command injection payload chain — 7 real payloads, verbatim output, full MITRE T1059 mapping and remediation.</p>
+        <div class="blog-meta"><span>MAR 04 2026</span><span>LABS</span></div>
       </div>
-    </div>
+    </a>
 
-    <div class="blog-card" style="cursor:default;opacity:0.5;">
+    <a class="blog-card" href="https://estherops.tech/intelligence/unauthenticated-opensearch-requests/" target="_blank">
       <div class="blog-thumb">
         <div class="blog-thumb-glow"></div>
         <svg class="blog-icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
           <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+          <path d="M8 11h6M11 8v6" stroke-linecap="round"/>
         </svg>
       </div>
       <div class="blog-body">
-        <div class="blog-tag">COMING SOON</div>
-        <h3>Building ESTHER: Autonomous AI Security Research on Kali Linux</h3>
-        <p>How we built and deployed an autonomous AI security agent — architecture decisions, lessons learned, and what comes next.</p>
-        <div class="blog-meta"><span>IN PROGRESS</span></div>
+        <div class="blog-tag">INTELLIGENCE</div>
+        <h3>Unauthenticated OpenSearch Requests — Threat Analysis</h3>
+        <p>18 unauthenticated requests detected in OpenSearch audit logs. Investigation, root cause analysis, and risk assessment.</p>
+        <div class="blog-meta"><span>MAR 04 2026</span><span>INTELLIGENCE</span></div>
       </div>
-    </div>
+    </a>
 
+  </div>
+
+  <div style="text-align:center;margin-top:40px;">
+    <a href="https://estherops.tech" target="_blank" style="font-family:'Share Tech Mono',monospace;font-size:13px;color:var(--cyan);letter-spacing:0.12em;text-decoration:none;border:1px solid rgba(34,211,238,0.35);padding:12px 28px;transition:all 0.2s;display:inline-block;">
+      VIEW ALL RESEARCH AT ESTHEROPS.TECH →
+    </a>
   </div>
 </section>
 
@@ -800,24 +807,24 @@
     <h2>Start a<br><span style="color:var(--cyan)">Conversation</span></h2>
     <p style="color:var(--muted);margin-top:12px;">All inquiries are handled confidentially. We respond within 24 hours.</p>
 
-    <form id="contact-form" class="contact-form" action="https://formspree.io/f/mreanvvq" method="POST">
+    <div class="contact-form">
       <div class="form-row">
         <div class="field-group">
           <label>First Name</label>
-          <input type="text" name="first_name" placeholder="Jane" required>
+          <input type="text" placeholder="Jane">
         </div>
         <div class="field-group">
           <label>Last Name</label>
-          <input type="text" name="last_name" placeholder="Smith" required>
+          <input type="text" placeholder="Smith">
         </div>
       </div>
       <div class="field-group">
         <label>Organization Email</label>
-        <input type="email" name="email" placeholder="jane@company.com" required>
+        <input type="email" placeholder="jane@company.com">
       </div>
       <div class="field-group">
         <label>Service Interest</label>
-        <select name="service">
+        <select>
           <option>Penetration Testing</option>
           <option>Red Team Operation</option>
           <option>Threat Intelligence</option>
@@ -829,57 +836,10 @@
       </div>
       <div class="field-group">
         <label>Message</label>
-        <textarea name="message" rows="5" placeholder="Describe your environment, scope, or security concerns..."></textarea>
+        <textarea rows="5" placeholder="Describe your environment, scope, or security concerns..."></textarea>
       </div>
-      <div id="form-status" style="display:none;margin-top:8px;padding:16px;font-family:'Share Tech Mono',monospace;font-size:14px;letter-spacing:0.05em;"></div>
-      <button type="submit" class="submit-btn" id="submit-btn">SEND SECURE MESSAGE →</button>
-    </form>
-    <script>
-    (function(){
-      var form = document.getElementById('contact-form');
-      var btn = document.getElementById('submit-btn');
-      var status = document.getElementById('form-status');
-      form.addEventListener('submit', function(e){
-        e.preventDefault();
-        btn.textContent = 'SENDING...';
-        btn.disabled = true;
-        btn.style.opacity = '0.7';
-        fetch('https://formspree.io/f/mreanvvq', {
-          method: 'POST',
-          body: new FormData(form),
-          headers: { 'Accept': 'application/json' }
-        }).then(function(r){
-          if(r.ok){
-            form.reset();
-            btn.style.display = 'none';
-            status.style.display = 'block';
-            status.style.background = 'rgba(34,211,238,0.08)';
-            status.style.border = '1px solid rgba(34,211,238,0.35)';
-            status.style.color = '#22d3ee';
-            status.innerHTML = '[+] Message received. We will respond within 24 hours.';
-          } else {
-            btn.textContent = 'SEND SECURE MESSAGE →';
-            btn.disabled = false;
-            btn.style.opacity = '1';
-            status.style.display = 'block';
-            status.style.background = 'rgba(239,68,68,0.08)';
-            status.style.border = '1px solid rgba(239,68,68,0.35)';
-            status.style.color = '#ef4444';
-            status.innerHTML = '[!] Submission failed. Email us directly: finksecopsteam@gmail.com';
-          }
-        }).catch(function(){
-          btn.textContent = 'SEND SECURE MESSAGE →';
-          btn.disabled = false;
-          btn.style.opacity = '1';
-          status.style.display = 'block';
-          status.style.background = 'rgba(239,68,68,0.08)';
-          status.style.border = '1px solid rgba(239,68,68,0.35)';
-          status.style.color = '#ef4444';
-          status.innerHTML = '[!] Network error. Email us directly: finksecopsteam@gmail.com';
-        });
-      });
-    })();
-    </script>
+      <button class="submit-btn">SEND MESSAGE →</button>
+    </div>
   </div>
 </section>
 
