@@ -312,6 +312,7 @@
 
   /* SERVICES */
   #services { background: var(--bg2); }
+
   #services .grid-bg { position: absolute; inset: 0; opacity: 0.5; pointer-events: none; }
 
   .services-grid {
@@ -330,6 +331,7 @@
     position: relative;
     overflow: hidden;
   }
+
   .service-card::before {
     content: '';
     position: absolute; top: 0; left: 0; right: 0; height: 2px;
@@ -337,20 +339,66 @@
     transform: scaleX(0); transform-origin: left;
     transition: transform 0.35s ease;
   }
-  .service-card:hover { background: rgba(30,41,59,0.7); }
+
   .service-card:hover::before { transform: scaleX(1); }
 
   .service-icon { width: 48px; height: 48px; margin-bottom: 24px; color: var(--cyan); }
+
   .service-card h3 {
     font-family: var(--font-head);
     font-size: 20px; font-weight: 600;
     margin-bottom: 12px; letter-spacing: 0.01em;
   }
+
   .service-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
-  .service-num {
-    position: absolute; top: 20px; right: 24px;
-    font-family: var(--font-mono); font-size: 11px;
-    color: rgba(34,211,238,0.25); letter-spacing: 0.1em;
+
+  /* EXPANDABLE SERVICE CARDS */
+  .service-expandable {
+    cursor: pointer;
+    transition: all 0.28s ease;
+  }
+
+  .service-expandable:hover,
+  .service-expandable:focus-within {
+    background: rgba(30,41,59,0.85) !important;
+    transform: translateY(-4px);
+    box-shadow: var(--glow);
+  }
+
+  .expand-details {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.4s ease, opacity 0.35s ease, margin-top 0.3s ease;
+  }
+
+  .service-expandable:hover .expand-details,
+  .service-expandable:focus-within .expand-details {
+    max-height: 260px;
+    opacity: 1;
+    margin-top: 28px;
+  }
+
+  .expand-details ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+  }
+
+  .expand-details li {
+    position: relative;
+    padding-left: 28px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  .expand-details li::before {
+    content: "→";
+    color: var(--cyan);
+    position: absolute;
+    left: 4px;
+    font-weight: bold;
   }
 
   /* ABOUT */
@@ -615,57 +663,91 @@
 
     <div class="services-grid">
 
-      <div class="service-card">
-        <span class="service-num">01</span>
+      <div class="service-card service-expandable">
         <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
           <path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V7l-9-5z"/>
           <path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
         <h3>Penetration Testing</h3>
-        <p>External and internal network assessments, web application testing, and API security reviews. Scoped, authorized, and fully documented with actionable remediation steps.</p>
+        <p>External/internal network, web apps, APIs — fully documented & actionable.</p>
+        <div class="expand-details">
+          <ul>
+            <li>Black-box, gray-box & white-box testing options</li>
+            <li>Web, API, mobile & thick-client assessments</li>
+            <li>Chained exploit paths & privilege escalation focus</li>
+            <li>Executive + technical reports + retest option</li>
+          </ul>
+        </div>
       </div>
 
-      <div class="service-card">
-        <span class="service-num">02</span>
+      <div class="service-card service-expandable">
         <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
           <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35" stroke-linecap="round"/>
           <path d="M8 11h6M11 8v6" stroke-linecap="round"/>
         </svg>
         <h3>Threat Intelligence</h3>
-        <p>Powered by ESTHER — continuous passive reconnaissance, OSINT collection, and threat correlation to surface risks before they become incidents.</p>
+        <p>Continuous passive recon & correlation powered by ESTHER.</p>
+        <div class="expand-details">
+          <ul>
+            <li>Automated OSINT & dark-web monitoring</li>
+            <li>Brand & credential leak detection</li>
+            <li>Adversary infrastructure tracking</li>
+            <li>Weekly/monthly intelligence briefings</li>
+          </ul>
+        </div>
       </div>
 
-      <div class="service-card">
-        <span class="service-num">03</span>
+      <div class="service-card service-expandable">
         <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
           <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
         <h3>Security Assessments</h3>
-        <p>Structured security reviews against NIST CSF, CIS Controls, and industry frameworks. Identify gaps, prioritize fixes, and build a roadmap your team can execute.</p>
+        <p>NIST, CIS, ISO-aligned gap analysis & roadmap.</p>
+        <div class="expand-details">
+          <ul>
+            <li>Maturity & compliance posture evaluation</li>
+            <li>Control effectiveness testing</li>
+            <li>Risk prioritized findings</li>
+            <li>Executive summary + detailed action plan</li>
+          </ul>
+        </div>
       </div>
 
-      <div class="service-card">
-        <span class="service-num">04</span>
+      <div class="service-card service-expandable">
         <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
           <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4" stroke-linecap="round"/>
           <path d="M7 8l3 3-3 3" stroke-linecap="round" stroke-linejoin="round"/><line x1="11" y1="14" x2="15" y2="14" stroke-linecap="round"/>
         </svg>
         <h3>Red Team Operations</h3>
-        <p>Adversary simulation across technical, physical, and social engineering vectors. Test how your people, processes, and technology respond under real attack conditions.</p>
+        <p>Realistic adversary simulation across multiple vectors.</p>
+        <div class="expand-details">
+          <ul>
+            <li>Network + physical + social engineering</li>
+            <li>Live attack chain demonstration</li>
+            <li>Assumes breach scenarios</li>
+            <li>Post-exercise hotwash & lessons learned</li>
+          </ul>
+        </div>
       </div>
 
-      <div class="service-card">
-        <span class="service-num">05</span>
+      <div class="service-card service-expandable">
         <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
           <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
           <polyline points="3.29 7 12 12 20.71 7"/><line x1="12" y1="22" x2="12" y2="12"/>
         </svg>
         <h3>Cloud Security Review</h3>
-        <p>AWS, GCP, and Azure configuration audits, IAM privilege analysis, and infrastructure-as-code scanning. Know what's exposed before an attacker does.</p>
+        <p>AWS / GCP / Azure misconfiguration & exposure hunting.</p>
+        <div class="expand-details">
+          <ul>
+            <li>IAM policy & privilege creep analysis</li>
+            <li>Public bucket, open ports, exposed secrets scan</li>
+            <li>Network & encryption posture review</li>
+            <li>Tagging & cost anomaly detection bonus</li>
+          </ul>
+        </div>
       </div>
 
-      <div class="service-card">
-        <span class="service-num">06</span>
+      <div class="service-card service-expandable">
         <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
           <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
           <polyline points="14 2 14 8 20 8"/>
@@ -673,7 +755,15 @@
           <line x1="16" y1="17" x2="8" y2="17" stroke-linecap="round"/>
         </svg>
         <h3>Security Advisory</h3>
-        <p>Fractional CISO services, security program development, policy writing, and board-level reporting. Security leadership without the full-time overhead.</p>
+        <p>Fractional CISO, program building & board reporting.</p>
+        <div class="expand-details">
+          <ul>
+            <li>Security strategy & roadmap development</li>
+            <li>Policy, standards & awareness program support</li>
+            <li>Incident response plan reviews</li>
+            <li>Board/executive-level security briefings</li>
+          </ul>
+        </div>
       </div>
 
     </div>
@@ -741,7 +831,6 @@
   <p class="section-sub">Security research and findings published directly from ESTHER's lab. Real commands, real output, real findings.</p>
 
   <div class="blog-grid">
-
     <a class="blog-card" href="https://estherops.tech/posts/sql-injection-dvwa/" target="_blank">
       <div class="blog-thumb">
         <div class="blog-thumb-glow"></div>
@@ -751,7 +840,7 @@
       </div>
       <div class="blog-body">
         <div class="blog-tag">LABS</div>
-        <h3>SQL Injection in DVWA: Hands-On Reconnaissance &amp; Exploitation</h3>
+        <h3>SQL Injection in DVWA: Hands-On Reconnaissance & Exploitation</h3>
         <p>Real SQL injection findings against DVWA — actual commands, captured output, and MITRE T1190 mapping.</p>
         <div class="blog-meta"><span>MAR 03 2026</span><span>LABS</span></div>
       </div>
@@ -788,7 +877,6 @@
         <div class="blog-meta"><span>MAR 04 2026</span><span>INTELLIGENCE</span></div>
       </div>
     </a>
-
   </div>
 
   <div style="text-align:center;margin-top:40px;">
