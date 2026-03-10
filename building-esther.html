@@ -92,8 +92,17 @@
     font-family: var(--font-mono); font-size: 13px;
     color: var(--muted); text-decoration: none;
     letter-spacing: 0.05em; transition: color 0.2s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: -4px; left: 0; right: 0; height: 1px;
+    background: var(--cyan);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.25s ease;
   }
   .nav-links a:hover { color: var(--cyan); }
+  .nav-links a:hover::after { transform: scaleX(1); }
   .nav-links a.active { color: var(--cyan); }
 
   .nav-cta {
@@ -140,8 +149,8 @@
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
 
   h1 {
-    font-family: var(--font-head); font-weight: 900;
-    font-size: clamp(38px, 5vw, 72px);
+    font-family: var(--font-head); font-weight: 700;
+    font-size: clamp(42px, 6vw, 80px);
     line-height: 1.05; letter-spacing: 0.01em;
     margin-bottom: 24px;
   }
@@ -431,7 +440,6 @@
     <li><a href="/#services">Services</a></li>
     <li><a href="/#about">About</a></li>
     <li><a href="/#blog">Blog</a></li>
-    <li><a href="/building-esther" class="active">Building ESTHER</a></li>
     <li><a href="/#contact">Contact</a></li>
   </ul>
   <a href="/#contact" class="nav-cta">GET IN TOUCH →</a>
