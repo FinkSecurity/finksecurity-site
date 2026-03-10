@@ -312,7 +312,6 @@
 
   /* SERVICES */
   #services { background: var(--bg2); }
-
   #services .grid-bg { position: absolute; inset: 0; opacity: 0.5; pointer-events: none; }
 
   .services-grid {
@@ -352,6 +351,38 @@
 
   .service-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
 
+  /* SERVICE BADGES */
+  .service-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--font-mono); font-size: 10px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 4px 10px; margin-bottom: 16px;
+    border-radius: 2px;
+  }
+  .service-badge.available {
+    background: rgba(34,211,238,0.1);
+    color: var(--cyan);
+    border: 1px solid rgba(34,211,238,0.3);
+  }
+  .service-badge.available::before {
+    content: ''; width: 6px; height: 6px;
+    background: var(--cyan); border-radius: 50%;
+    box-shadow: 0 0 6px var(--cyan);
+    animation: pulse 2s infinite;
+  }
+  .service-badge.coming {
+    background: rgba(148,163,184,0.08);
+    color: var(--muted);
+    border: 1px solid rgba(148,163,184,0.2);
+  }
+  .service-badge.coming::before {
+    content: ''; width: 6px; height: 6px;
+    background: var(--muted); border-radius: 50%;
+    opacity: 0.5;
+  }
+  .service-card.coming-soon { opacity: 0.7; }
+  .service-card.coming-soon:hover { opacity: 0.9; }
+
   /* EXPANDABLE SERVICE CARDS */
   .service-expandable {
     cursor: pointer;
@@ -379,11 +410,7 @@
     margin-top: 28px;
   }
 
-  .expand-details ul {
-    list-style: none;
-    padding-left: 0;
-    margin: 0;
-  }
+  .expand-details ul { list-style: none; padding-left: 0; margin: 0; }
 
   .expand-details li {
     position: relative;
@@ -666,84 +693,18 @@
 
       <div class="service-card service-expandable">
         <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V7l-9-5z"/>
-          <path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <h3>Penetration Testing</h3>
-        <p>External/internal network, web apps, APIs — fully documented & actionable.</p>
-        <div class="expand-details">
-          <ul>
-            <li>Black-box, gray-box & white-box testing options</li>
-            <li>Web, API, mobile & thick-client assessments</li>
-            <li>Chained exploit paths & privilege escalation focus</li>
-            <li>Executive + technical reports + retest option</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="service-card service-expandable">
-        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
           <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35" stroke-linecap="round"/>
           <path d="M8 11h6M11 8v6" stroke-linecap="round"/>
         </svg>
+        <div class="service-badge available">// Available Now</div>
         <h3>Threat Intelligence</h3>
-        <p>Continuous passive recon & correlation powered by ESTHER.</p>
+        <p>Continuous passive recon & correlation powered by ESTHER — our autonomous AI security agent.</p>
         <div class="expand-details">
           <ul>
-            <li>Automated OSINT & dark-web monitoring</li>
-            <li>Brand & credential leak detection</li>
-            <li>Adversary infrastructure tracking</li>
-            <li>Weekly/monthly intelligence briefings</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="service-card service-expandable">
-        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <h3>Security Assessments</h3>
-        <p>NIST, CIS, ISO-aligned gap analysis & roadmap.</p>
-        <div class="expand-details">
-          <ul>
-            <li>Maturity & compliance posture evaluation</li>
-            <li>Control effectiveness testing</li>
-            <li>Risk prioritized findings</li>
-            <li>Executive summary + detailed action plan</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="service-card service-expandable">
-        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4" stroke-linecap="round"/>
-          <path d="M7 8l3 3-3 3" stroke-linecap="round" stroke-linejoin="round"/><line x1="11" y1="14" x2="15" y2="14" stroke-linecap="round"/>
-        </svg>
-        <h3>Red Team Operations</h3>
-        <p>Realistic adversary simulation across multiple vectors.</p>
-        <div class="expand-details">
-          <ul>
-            <li>Network + physical + social engineering</li>
-            <li>Live attack chain demonstration</li>
-            <li>Assumes breach scenarios</li>
-            <li>Post-exercise hotwash & lessons learned</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="service-card service-expandable">
-        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-          <polyline points="3.29 7 12 12 20.71 7"/><line x1="12" y1="22" x2="12" y2="12"/>
-        </svg>
-        <h3>Cloud Security Review</h3>
-        <p>AWS / GCP / Azure misconfiguration & exposure hunting.</p>
-        <div class="expand-details">
-          <ul>
-            <li>IAM policy & privilege creep analysis</li>
-            <li>Public bucket, open ports, exposed secrets scan</li>
-            <li>Network & encryption posture review</li>
-            <li>Tagging & cost anomaly detection bonus</li>
+            <li>Automated OSINT & surface reconnaissance</li>
+            <li>Brand & credential leak detection via HIBP</li>
+            <li>CVE correlation via NVD & AlienVault OTX</li>
+            <li>Monthly intelligence briefings with PDF delivery</li>
           </ul>
         </div>
       </div>
@@ -755,14 +716,86 @@
           <line x1="16" y1="13" x2="8" y2="13" stroke-linecap="round"/>
           <line x1="16" y1="17" x2="8" y2="17" stroke-linecap="round"/>
         </svg>
+        <div class="service-badge available">// Available Now</div>
         <h3>Security Advisory</h3>
-        <p>Fractional CISO, program building & board reporting.</p>
+        <p>Fractional CISO, program building & board-level reporting for organizations building security from the ground up.</p>
         <div class="expand-details">
           <ul>
             <li>Security strategy & roadmap development</li>
             <li>Policy, standards & awareness program support</li>
-            <li>Incident response plan reviews</li>
-            <li>Board/executive-level security briefings</li>
+            <li>Incident response plan review & tabletop exercises</li>
+            <li>Board & executive-level security briefings</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="service-card service-expandable coming-soon">
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V7l-9-5z"/>
+          <path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="service-badge coming">// Coming Soon</div>
+        <h3>Penetration Testing</h3>
+        <p>External/internal network, web apps & APIs — fully documented, MITRE ATT&CK mapped & actionable.</p>
+        <div class="expand-details">
+          <ul>
+            <li>Black-box, gray-box & white-box testing options</li>
+            <li>Web, API, mobile & thick-client assessments</li>
+            <li>Chained exploit paths & privilege escalation focus</li>
+            <li>Executive + technical reports + retest option</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="service-card service-expandable coming-soon">
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="service-badge coming">// Coming Soon</div>
+        <h3>Security Assessments</h3>
+        <p>NIST, CIS & ISO-aligned gap analysis with prioritized remediation roadmap.</p>
+        <div class="expand-details">
+          <ul>
+            <li>Maturity & compliance posture evaluation</li>
+            <li>Control effectiveness testing</li>
+            <li>Risk-prioritized findings</li>
+            <li>Executive summary + detailed action plan</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="service-card service-expandable coming-soon">
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4" stroke-linecap="round"/>
+          <path d="M7 8l3 3-3 3" stroke-linecap="round" stroke-linejoin="round"/><line x1="11" y1="14" x2="15" y2="14" stroke-linecap="round"/>
+        </svg>
+        <div class="service-badge coming">// Coming Soon</div>
+        <h3>Red Team Operations</h3>
+        <p>Realistic adversary simulation across network, physical & social engineering vectors.</p>
+        <div class="expand-details">
+          <ul>
+            <li>Network + physical + social engineering</li>
+            <li>Live attack chain demonstration</li>
+            <li>Assumes breach scenarios</li>
+            <li>Post-exercise hotwash & lessons learned</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="service-card service-expandable coming-soon">
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+          <polyline points="3.29 7 12 12 20.71 7"/><line x1="12" y1="22" x2="12" y2="12"/>
+        </svg>
+        <div class="service-badge coming">// Coming Soon</div>
+        <h3>Cloud Security Review</h3>
+        <p>AWS / GCP / Azure misconfiguration & exposure hunting powered by automated enumeration.</p>
+        <div class="expand-details">
+          <ul>
+            <li>IAM policy & privilege creep analysis</li>
+            <li>Public bucket, open ports & exposed secrets scan</li>
+            <li>Network & encryption posture review</li>
+            <li>Risk-prioritized findings with remediation steps</li>
           </ul>
         </div>
       </div>
@@ -914,12 +947,12 @@
       <div class="field-group">
         <label>Service Interest</label>
         <select name="service">
-          <option>Penetration Testing</option>
-          <option>Red Team Operation</option>
           <option>Threat Intelligence</option>
-          <option>Security Assessment</option>
-          <option>Cloud Security Review</option>
           <option>Security Advisory / CISO</option>
+          <option>Penetration Testing</option>
+          <option>Security Assessment</option>
+          <option>Red Team Operation</option>
+          <option>Cloud Security Review</option>
           <option>Other</option>
         </select>
       </div>
