@@ -357,18 +357,42 @@
 
   .metric-card {
     background: var(--bg2); padding: 40px 32px; text-align: center;
+    position: relative; overflow: hidden;
   }
+  .metric-card::before {
+    content: ''; position: absolute;
+    bottom: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .metric-card:hover::before { opacity: 1; }
 
   .metric-value {
     font-family: var(--font-head); font-weight: 900;
     font-size: 48px; color: var(--cyan);
     line-height: 1; margin-bottom: 8px;
+    min-height: 56px; display: flex;
+    align-items: center; justify-content: center;
   }
+  .metric-value.loading { font-size: 24px; opacity: 0.3; animation: blink 1s infinite; }
+  @keyframes blink { 0%,100%{opacity:0.3} 50%{opacity:0.6} }
 
   .metric-label {
     font-family: var(--font-mono); font-size: 11px;
     color: var(--muted); letter-spacing: 0.12em;
     text-transform: uppercase;
+  }
+
+  .metric-period {
+    font-family: var(--font-mono); font-size: 10px;
+    color: rgba(34,211,238,0.4); letter-spacing: 0.1em;
+    margin-top: 6px;
+  }
+
+  .metrics-updated {
+    text-align: right; margin-top: 12px;
+    font-family: var(--font-mono); font-size: 10px;
+    color: rgba(148,163,184,0.35); letter-spacing: 0.08em;
   }
 
   /* CTA */
@@ -440,6 +464,7 @@
     <li><a href="/#services">Services</a></li>
     <li><a href="/#about">About</a></li>
     <li><a href="/#blog">Blog</a></li>
+    <li><a href="/building-esther" class="active">Building ESTHER</a></li>
     <li><a href="/#contact">Contact</a></li>
   </ul>
   <a href="/#contact" class="nav-cta">GET IN TOUCH →</a>
@@ -672,27 +697,32 @@
 
 <!-- METRICS -->
 <section id="metrics">
-  <div class="section-tag">BY THE NUMBERS</div>
-  <h2>Week 1 <span style="color:var(--cyan)">Metrics</span></h2>
+  <div class="section-tag">LIVE ACTIVITY</div>
+  <h2>ESTHER <span style="color:var(--cyan)">Last 30 Days</span></h2>
 
   <div class="metrics-grid">
     <div class="metric-card">
-      <div class="metric-value">8</div>
-      <div class="metric-label">Days to Deploy</div>
+      <div class="metric-value loading" id="stat-cves">...</div>
+      <div class="metric-label">CVEs Analyzed</div>
+      <div class="metric-period">Last 30 Days</div>
     </div>
     <div class="metric-card">
-      <div class="metric-value">$10</div>
-      <div class="metric-label">Total API Cost</div>
+      <div class="metric-value loading" id="stat-hosts">...</div>
+      <div class="metric-label">Hosts Enumerated</div>
+      <div class="metric-period">Last 30 Days</div>
     </div>
     <div class="metric-card">
-      <div class="metric-value">18+</div>
-      <div class="metric-label">Posts Published</div>
+      <div class="metric-value loading" id="stat-findings">...</div>
+      <div class="metric-label">Critical Findings</div>
+      <div class="metric-period">Last 30 Days</div>
     </div>
     <div class="metric-card">
-      <div class="metric-value">$8</div>
-      <div class="metric-label">Monthly VPS Cost</div>
+      <div class="metric-value loading" id="stat-intel">...</div>
+      <div class="metric-label">Threat Intel Queries</div>
+      <div class="metric-period">Last 30 Days</div>
     </div>
   </div>
+  <div class="metrics-updated" id="metrics-updated"></div>
 </section>
 
 <div class="section-divider"></div>
@@ -725,5 +755,32 @@
   <div class="footer-copy">© 2026 FINK SECURITY · finksecurity.com</div>
 </footer>
 
+<script>
+// Fetch live stats from ESTHER's stats.json
+fetch('/stats.json')
+  .then(r => r.json())
+  .then(data => {
+    const set = (id, val) => {
+      const el = document.getElementById(id);
+      if (el) { el.textContent = val; el.classList.remove('loading'); }
+    };
+    set('stat-cves',     data.cves_analyzed     ?? '--');
+    set('stat-hosts',    data.hosts_enumerated  ?? '--');
+    set('stat-findings', data.critical_findings ?? '--');
+    set('stat-intel',    data.threat_intel_queries ?? '--');
+    const updated = document.getElementById('metrics-updated');
+    if (updated && data.updated) {
+      updated.textContent = `// ESTHER last updated: ${data.updated}`;
+    }
+  })
+  .catch(() => {
+    // Fallback if stats.json not yet available
+    ['stat-cves','stat-hosts','stat-findings','stat-intel']
+      .forEach(id => {
+        const el = document.getElementById(id);
+        if (el) { el.textContent = '--'; el.classList.remove('loading'); }
+      });
+  });
+</script>
 </body>
 </html>
