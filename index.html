@@ -383,6 +383,29 @@
   .service-card.coming-soon { opacity: 0.7; }
   .service-card.coming-soon:hover { opacity: 0.9; }
 
+  .service-tags {
+    display: flex; align-items: center; gap: 8px;
+    flex-wrap: wrap; margin-bottom: 16px;
+  }
+  .service-badge { margin-bottom: 0; }
+
+  .audience-tag {
+    display: inline-flex; align-items: center;
+    font-family: var(--font-mono); font-size: 10px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 2px;
+  }
+  .audience-tag.business {
+    background: rgba(99,102,241,0.1);
+    color: #a5b4fc;
+    border: 1px solid rgba(99,102,241,0.25);
+  }
+  .audience-tag.personal {
+    background: rgba(244,114,182,0.1);
+    color: #f9a8d4;
+    border: 1px solid rgba(244,114,182,0.25);
+  }
+
   /* EXPANDABLE SERVICE CARDS */
   .service-expandable {
     cursor: pointer;
@@ -689,16 +712,20 @@
     <h2>What We <span style="color:var(--cyan)">Deliver</span></h2>
     <p class="section-sub">Every engagement is scoped to your environment. Every finding comes with a remediation path.</p>
 
-    <div class="services-grid">
+<div class="services-grid">
 
+      <!-- BUSINESS: THREAT INTELLIGENCE -->
       <div class="service-card service-expandable">
         <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
           <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35" stroke-linecap="round"/>
           <path d="M8 11h6M11 8v6" stroke-linecap="round"/>
         </svg>
-        <div class="service-badge available">// Available Now</div>
+        <div class="service-tags">
+          <span class="service-badge available">// Available Now</span>
+          <span class="audience-tag business">For Business</span>
+        </div>
         <h3>Threat Intelligence</h3>
-        <p>Continuous passive recon & correlation powered by ESTHER — our autonomous AI security agent.</p>
+        <p>Continuous passive monitoring & CVE correlation powered by ESTHER — real-time breach detection and adversary infrastructure analysis.</p>
         <div class="expand-details">
           <ul>
             <li>Automated OSINT & surface reconnaissance</li>
@@ -709,40 +736,202 @@
         </div>
       </div>
 
+      <!-- INDIVIDUAL: PERSONAL EXPOSURE REPORT -->
       <div class="service-card service-expandable">
         <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-          <polyline points="14 2 14 8 20 8"/>
-          <line x1="16" y1="13" x2="8" y2="13" stroke-linecap="round"/>
-          <line x1="16" y1="17" x2="8" y2="17" stroke-linecap="round"/>
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
         </svg>
-        <div class="service-badge available">// Available Now</div>
-        <h3>Security Advisory</h3>
-        <p>Fractional CISO, program building & board-level reporting for organizations building security from the ground up.</p>
+        <div class="service-tags">
+          <span class="service-badge available">// Available Now</span>
+          <span class="audience-tag personal">For Individuals</span>
+        </div>
+        <h3>Personal Exposure Report</h3>
+        <p>Find out what hackers, stalkers, or scammers can discover about you in minutes — name, email, phone, addresses, and associated accounts.</p>
         <div class="expand-details">
           <ul>
-            <li>Security strategy & roadmap development</li>
-            <li>Policy, standards & awareness program support</li>
-            <li>Incident response plan review & tabletop exercises</li>
-            <li>Board & executive-level security briefings</li>
+            <li>OSINT scan across public data sources</li>
+            <li>Social media footprint analysis</li>
+            <li>Data broker exposure assessment</li>
+            <li>PDF report with removal recommendations</li>
           </ul>
         </div>
       </div>
 
+      <!-- BUSINESS: OSINT RECONNAISSANCE -->
+      <div class="service-card service-expandable">
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12 2C8 2 4 5 4 9c0 5 8 13 8 13s8-8 8-13c0-4-4-7-8-7z"/>
+          <circle cx="12" cy="9" r="2.5"/>
+        </svg>
+        <div class="service-tags">
+          <span class="service-badge available">// Available Now</span>
+          <span class="audience-tag business">For Business</span>
+        </div>
+        <h3>OSINT Reconnaissance</h3>
+        <p>Autonomous intelligence gathering on domains, infrastructure, and personnel — structured reports with actionable findings delivered to your inbox.</p>
+        <div class="expand-details">
+          <ul>
+            <li>DNS enumeration & certificate transparency</li>
+            <li>Shodan infrastructure fingerprinting</li>
+            <li>Domain reputation & historical correlation</li>
+            <li>PDF report generated & delivered via Telegram</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- INDIVIDUAL: BREACH & CREDENTIAL CHECK -->
+      <div class="service-card service-expandable">
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+        <div class="service-tags">
+          <span class="service-badge available">// Available Now</span>
+          <span class="audience-tag personal">For Individuals</span>
+        </div>
+        <h3>Breach & Credential Check</h3>
+        <p>Instant check across known data breaches — find out if your email, passwords, or personal data has been exposed on the dark web.</p>
+        <div class="expand-details">
+          <ul>
+            <li>HaveIBeenPwned breach database check</li>
+            <li>Password exposure verification</li>
+            <li>Breach timeline & source identification</li>
+            <li>Step-by-step remediation guide</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- BUSINESS: BUG BOUNTY HUNTING -->
+      <div class="service-card service-expandable">
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="service-tags">
+          <span class="service-badge available">// Available Now</span>
+          <span class="audience-tag business">For Business</span>
+        </div>
+        <h3>Bug Bounty Hunting</h3>
+        <p>ESTHER hunts vulnerabilities autonomously against authorized bug bounty programs — every finding documented and submission-ready.</p>
+        <div class="expand-details">
+          <ul>
+            <li>Scoped recon against HackerOne & Bugcrowd programs</li>
+            <li>MITRE ATT&CK mapped vulnerability documentation</li>
+            <li>CVSS-scored findings with proof-of-concept</li>
+            <li>Submission-ready reports with reproduction steps</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- INDIVIDUAL: DIGITAL FOOTPRINT AUDIT -->
+      <div class="service-card service-expandable">
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+        <div class="service-tags">
+          <span class="service-badge available">// Available Now</span>
+          <span class="audience-tag personal">For Individuals</span>
+        </div>
+        <h3>Digital Footprint Audit</h3>
+        <p>A complete picture of your online presence — what exists, where it lives, and how to shrink your attack surface before someone exploits it.</p>
+        <div class="expand-details">
+          <ul>
+            <li>Cross-platform identity & account discovery</li>
+            <li>Public records & people-finder site exposure</li>
+            <li>Photo & image reverse search</li>
+            <li>Prioritized takedown & privacy action plan</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- INDIVIDUAL: HOME NETWORK SECURITY -->
+      <div class="service-card service-expandable">
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        <div class="service-tags">
+          <span class="service-badge available">// Available Now</span>
+          <span class="audience-tag personal">For Individuals</span>
+        </div>
+        <h3>Home Network Security Check</h3>
+        <p>See your home network the way a hacker does — exposed devices, open ports, vulnerable routers, and IoT risks found and documented.</p>
+        <div class="expand-details">
+          <ul>
+            <li>Shodan scan of your public IP address</li>
+            <li>Exposed device & service identification</li>
+            <li>Router & IoT vulnerability assessment</li>
+            <li>Plain-English hardening guide</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- INDIVIDUAL: ONLINE HARASSMENT INVESTIGATION -->
+      <div class="service-card service-expandable">
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+        <div class="service-tags">
+          <span class="service-badge available">// Available Now</span>
+          <span class="audience-tag personal">For Individuals</span>
+        </div>
+        <h3>Online Harassment Investigation</h3>
+        <p>Being targeted online? ESTHER traces anonymous accounts, fake profiles, and coordinated harassment back to their source using OSINT techniques.</p>
+        <div class="expand-details">
+          <ul>
+            <li>Anonymous account attribution via OSINT</li>
+            <li>Fake profile & impersonation detection</li>
+            <li>Digital evidence collection & documentation</li>
+            <li>Report suitable for law enforcement submission</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- INDIVIDUAL: SOCIAL MEDIA OSINT -->
+      <div class="service-card service-expandable">
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+        </svg>
+        <div class="service-tags">
+          <span class="service-badge available">// Available Now</span>
+          <span class="audience-tag personal">For Individuals</span>
+        </div>
+        <h3>Social Media OSINT</h3>
+        <p>Deep intelligence gathering across social platforms — verify someone's identity, uncover connections, or find what's publicly accessible about any profile.</p>
+        <div class="expand-details">
+          <ul>
+            <li>Cross-platform account & identity correlation</li>
+            <li>Connection mapping & network analysis</li>
+            <li>Username & handle enumeration</li>
+            <li>Structured report with verified findings only</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- BUSINESS: COMING SOON -->
       <div class="service-card service-expandable coming-soon">
         <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
           <path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V7l-9-5z"/>
-          <path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        <div class="service-badge coming">// Coming Soon</div>
+        <div class="service-tags">
+          <span class="service-badge coming">// Coming Soon</span>
+          <span class="audience-tag business">For Business</span>
+        </div>
         <h3>Penetration Testing</h3>
-        <p>External/internal network, web apps & APIs — fully documented, MITRE ATT&CK mapped & actionable.</p>
+        <p>External/internal network, web apps & APIs — fully documented, MITRE ATT&CK mapped & actionable findings.</p>
         <div class="expand-details">
           <ul>
-            <li>Black-box, gray-box & white-box testing options</li>
-            <li>Web, API, mobile & thick-client assessments</li>
-            <li>Chained exploit paths & privilege escalation focus</li>
-            <li>Executive + technical reports + retest option</li>
+            <li>Black-box, gray-box & white-box options</li>
+            <li>Web, API & thick-client assessments</li>
+            <li>Chained exploit paths & privilege escalation</li>
+            <li>Executive + technical reports with retest</li>
           </ul>
         </div>
       </div>
@@ -751,33 +940,18 @@
         <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
           <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        <div class="service-badge coming">// Coming Soon</div>
-        <h3>Security Assessments</h3>
-        <p>NIST, CIS & ISO-aligned gap analysis with prioritized remediation roadmap.</p>
-        <div class="expand-details">
-          <ul>
-            <li>Maturity & compliance posture evaluation</li>
-            <li>Control effectiveness testing</li>
-            <li>Risk-prioritized findings</li>
-            <li>Executive summary + detailed action plan</li>
-          </ul>
+        <div class="service-tags">
+          <span class="service-badge coming">// Coming Soon</span>
+          <span class="audience-tag business">For Business</span>
         </div>
-      </div>
-
-      <div class="service-card service-expandable coming-soon">
-        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4" stroke-linecap="round"/>
-          <path d="M7 8l3 3-3 3" stroke-linecap="round" stroke-linejoin="round"/><line x1="11" y1="14" x2="15" y2="14" stroke-linecap="round"/>
-        </svg>
-        <div class="service-badge coming">// Coming Soon</div>
-        <h3>Red Team Operations</h3>
-        <p>Realistic adversary simulation across network, physical & social engineering vectors.</p>
+        <h3>Vulnerability Research</h3>
+        <p>Autonomous CVE analysis, proof-of-concept development & responsible disclosure powered by ESTHER.</p>
         <div class="expand-details">
           <ul>
-            <li>Network + physical + social engineering</li>
-            <li>Live attack chain demonstration</li>
-            <li>Assumes breach scenarios</li>
-            <li>Post-exercise hotwash & lessons learned</li>
+            <li>CVE triage & exploitability assessment</li>
+            <li>Proof-of-concept development</li>
+            <li>Responsible disclosure coordination</li>
+            <li>CVSS scoring & remediation guidance</li>
           </ul>
         </div>
       </div>
@@ -787,9 +961,33 @@
           <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
           <polyline points="3.29 7 12 12 20.71 7"/><line x1="12" y1="22" x2="12" y2="12"/>
         </svg>
-        <div class="service-badge coming">// Coming Soon</div>
+        <div class="service-tags">
+          <span class="service-badge coming">// Coming Soon</span>
+          <span class="audience-tag business">For Business</span>
+        </div>
         <h3>Cloud Security Review</h3>
         <p>AWS / GCP / Azure misconfiguration & exposure hunting powered by automated enumeration.</p>
+        <div class="expand-details">
+          <ul>
+            <li>IAM policy & privilege creep analysis</li>
+            <li>Public bucket & exposed secrets scan</li>
+            <li>Network & encryption posture review</li>
+            <li>Risk-prioritized remediation steps</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+      </div>
+
+      <div class="service-card service-expandable coming-soon">
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+          <polyline points="3.29 7 12 12 20.71 7"/><line x1="12" y1="22" x2="12" y2="12"/>
+        </svg>
+        <div class="service-badge coming">// Coming Soon</div>
+        <h3>Cloud Security Review</h3>
+        <p>AWS / GCP / Azure misconfiguration & exposure hunting powered by automated enumeration and ESTHER's cloud intelligence capabilities.</p>
         <div class="expand-details">
           <ul>
             <li>IAM policy & privilege creep analysis</li>
@@ -801,8 +999,6 @@
       </div>
 
     </div>
-  </div>
-</section>
 
 <div class="section-divider"></div>
 
@@ -948,10 +1144,16 @@
         <label>Service Interest</label>
         <select name="service">
           <option>Threat Intelligence</option>
-          <option>Security Advisory / CISO</option>
+          <option>OSINT Reconnaissance</option>
+          <option>Bug Bounty Hunting</option>
+          <option>Personal Exposure Report</option>
+          <option>Breach &amp; Credential Check</option>
+          <option>Digital Footprint Audit</option>
+          <option>Home Network Security Check</option>
+          <option>Online Harassment Investigation</option>
+          <option>Social Media OSINT</option>
           <option>Penetration Testing</option>
-          <option>Security Assessment</option>
-          <option>Red Team Operation</option>
+          <option>Vulnerability Research</option>
           <option>Cloud Security Review</option>
           <option>Other</option>
         </select>
