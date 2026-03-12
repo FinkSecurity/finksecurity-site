@@ -213,10 +213,16 @@
 
   .acronym-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 1px; background: var(--border);
     border: 1px solid var(--border);
     margin-bottom: 60px;
+  }
+  @media (max-width: 900px) {
+    .acronym-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .acronym-grid { grid-template-columns: 1fr; }
   }
 
   .acronym-card {
@@ -479,7 +485,7 @@
       Building <span class="accent">ESTHER</span>
     </h1>
     <p class="hero-sub">
-      An autonomous AI security agent built from scratch — deployed on a live VPS, running real security tools, publishing real findings. This is the story of how we built her, what she can do, and where she's going.
+      ESTHER is Fink Security's autonomous threat hunter — running 24/7 on a live VPS, hunting bug bounties, and publishing real findings. This is the full story: the architecture, the tools, the failures, and the milestones. Built in public. No filter.
     </p>
     <div class="btn-row">
       <a href="https://estherops.tech" target="_blank" class="btn-primary">FOLLOW THE RESEARCH →</a>
@@ -514,8 +520,8 @@
     </div>
     <div class="acronym-card">
       <div class="acronym-letter">H</div>
-      <div class="acronym-word">Exploitation</div>
-      <div class="acronym-desc">Authorized penetration testing against lab environments (DVWA, Juice Shop) and client systems with written engagement contracts.</div>
+      <div class="acronym-word">Hacking</div>
+      <div class="acronym-desc">Authorized offensive operations — penetration testing, bug bounty hunting, and vulnerability exploitation against scoped targets with documented authorization.</div>
     </div>
     <div class="acronym-card">
       <div class="acronym-letter">E</div>
