@@ -1375,32 +1375,22 @@ async function handleSubmit() {
 
   try {
     // Send to Telegram
-    const TELEGRAM_BOT_TOKEN = '8608384469:AAGJa9thhOPf4z_m9DIW_7TfiRhwWbQwvHg';
-    const TELEGRAM_CHAT_ID = '8578890613';
-    
-    const tgResponse = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+    const tgResponse = await fetch('http://45.82.72.151:5001/notify', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        chat_id: TELEGRAM_CHAT_ID,
-        text: telegramMsg,
-        parse_mode: 'HTML'
+        first_name: firstName, last_name: lastName,
+        email, company, service,
+        target: target || 'N/A',
+        whois_registrant: whoisData.registrant || '',
+        whois_org: whoisData.org || '',
+        whois_created: whoisData.created || '',
+        message: message || 'None',
+        authorization_confirmed: true
       })
     });
 
     if (tgResponse.ok) {
-      // Also submit to Formspree as backup log
-      await fetch('https://formspree.io/f/mreanvvq', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          first_name: firstName, last_name: lastName,
-          email, company, service, target, message,
-          whois_registrant: whoisData.registrant || '',
-          authorization_confirmed: true, timestamp
-        })
-      });
-
       document.getElementById('authForm').style.display = 'none';
       statusEl.style.display = 'block';
       statusEl.className = 'form-status-success';
