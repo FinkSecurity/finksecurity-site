@@ -588,6 +588,62 @@
   }
   .submit-btn:hover { box-shadow: 0 0 40px rgba(34,211,238,0.5); }
 
+
+  /* AUTHORIZATION FORM */
+  .whois-result {
+    font-family: var(--font-mono); font-size: 11px;
+    padding: 10px 14px; margin-top: 6px;
+    border-left: 2px solid var(--border);
+    line-height: 1.5;
+  }
+  .whois-loading { color: var(--muted); border-color: var(--border); }
+  .whois-found { color: #86efac; border-color: #86efac; background: rgba(134,239,172,0.05); }
+  .whois-notfound { color: var(--muted); border-color: var(--border); }
+
+  .auth-agreement {
+    border: 1px solid rgba(34,211,238,0.2);
+    background: rgba(34,211,238,0.03);
+    padding: 20px;
+    margin-top: 8px;
+  }
+  .auth-agreement-header {
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--cyan); letter-spacing: 0.12em;
+    text-transform: uppercase; margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .auth-agreement-body {
+    font-family: var(--font-mono); font-size: 12px;
+    color: var(--muted); line-height: 1.7;
+    margin-bottom: 16px;
+  }
+  .auth-checkbox-row {
+    display: flex; gap: 12px; align-items: flex-start;
+    cursor: pointer;
+  }
+  .auth-checkbox-row input[type="checkbox"] {
+    width: 16px; height: 16px; min-width: 16px;
+    accent-color: var(--cyan); margin-top: 2px; cursor: pointer;
+  }
+  .auth-checkbox-label {
+    font-family: var(--font-mono); font-size: 12px;
+    color: var(--white); line-height: 1.6;
+  }
+  .submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .form-status-success {
+    font-family: var(--font-mono); font-size: 13px;
+    color: #86efac; line-height: 1.8; text-align: center;
+    padding: 40px 20px; border: 1px solid rgba(134,239,172,0.2);
+    background: rgba(134,239,172,0.03);
+  }
+  .form-status-error {
+    font-family: var(--font-mono); font-size: 12px;
+    color: #fca5a5; padding: 12px 16px;
+    border: 1px solid rgba(252,165,165,0.2);
+    background: rgba(252,165,165,0.03);
+  }
+  .success-icon { font-size: 32px; margin-bottom: 16px; }
+
   /* FOOTER */
   footer {
     border-top: 1px solid var(--border); padding: 40px 48px;
@@ -1132,47 +1188,262 @@
     <h2>Start a<br><span style="color:var(--cyan)">Conversation</span></h2>
     <p style="color:var(--muted);margin-top:12px;">All inquiries are handled confidentially. We respond within 24 hours.</p>
 
-    <form class="contact-form" action="https://formspree.io/f/mreanvvq" method="POST">
+    <form class="contact-form" id="authForm">
       <div class="form-row">
         <div class="field-group">
           <label>First Name</label>
-          <input type="text" name="first_name" placeholder="Jane" required>
+          <input type="text" name="first_name" id="firstName" placeholder="Jane" required>
         </div>
         <div class="field-group">
           <label>Last Name</label>
-          <input type="text" name="last_name" placeholder="Smith" required>
+          <input type="text" name="last_name" id="lastName" placeholder="Smith" required>
         </div>
       </div>
-      <div class="field-group">
-        <label>Organization Email</label>
-        <input type="email" name="email" placeholder="jane@company.com" required>
+
+      <div class="form-row">
+        <div class="field-group">
+          <label>Organization / Company</label>
+          <input type="text" name="company" id="company" placeholder="Acme Corp (or Individual)">
+        </div>
+        <div class="field-group">
+          <label>Your Email</label>
+          <input type="email" name="email" id="email" placeholder="jane@company.com" required>
+        </div>
       </div>
+
       <div class="field-group">
         <label>Service Interest</label>
-        <select name="service">
-          <option>Threat Intelligence</option>
-          <option>OSINT Reconnaissance</option>
-          <option>Bug Bounty Hunting</option>
-          <option>Personal Exposure Report</option>
-          <option>Breach &amp; Credential Check</option>
-          <option>Digital Footprint Audit</option>
-          <option>Home Network Security Check</option>
-          <option>Online Harassment Investigation</option>
-          <option>Social Media OSINT</option>
-          <option>Penetration Testing</option>
-          <option>Vulnerability Research</option>
-          <option>Cloud Security Review</option>
-          <option>Other</option>
+        <select name="service" id="service" onchange="updateAuthText()">
+          <option value="Threat Intelligence">Threat Intelligence</option>
+          <option value="OSINT Reconnaissance">OSINT Reconnaissance</option>
+          <option value="Bug Bounty Hunting">Bug Bounty Hunting</option>
+          <option value="Personal Exposure Report">Personal Exposure Report</option>
+          <option value="Breach & Credential Check">Breach &amp; Credential Check</option>
+          <option value="Digital Footprint Audit">Digital Footprint Audit</option>
+          <option value="Home Network Security Check">Home Network Security Check</option>
+          <option value="Online Harassment Investigation">Online Harassment Investigation</option>
+          <option value="Social Media OSINT">Social Media OSINT</option>
+          <option value="Penetration Testing">Penetration Testing</option>
+          <option value="Vulnerability Research">Vulnerability Research</option>
+          <option value="Cloud Security Review">Cloud Security Review</option>
+          <option value="Other">Other</option>
         </select>
       </div>
+
+      <div class="field-group" id="targetGroup">
+        <label>Target Domain / Asset <span style="color:var(--muted);font-size:10px;">(if applicable)</span></label>
+        <input type="text" name="target" id="target" placeholder="e.g. example.com, IP range, or social media profile" oninput="runWhois()">
+        <div id="whoisResult" class="whois-result" style="display:none;"></div>
+      </div>
+
       <div class="field-group">
         <label>Message</label>
-        <textarea rows="5" name="message" placeholder="Describe your environment, scope, or security concerns..." required></textarea>
+        <textarea rows="4" name="message" id="message" placeholder="Describe your environment, scope, or security concerns..."></textarea>
       </div>
-      <button type="submit" class="submit-btn">SEND MESSAGE →</button>
+
+      <!-- AUTHORIZATION AGREEMENT -->
+      <div class="auth-agreement" id="authAgreement">
+        <div class="auth-agreement-header">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+          // AUTHORIZATION & LEGAL AGREEMENT
+        </div>
+        <div class="auth-agreement-body" id="authAgreementText">
+          By submitting this form, I confirm that I have legal authority over the targets specified above, or have been explicitly authorized in writing by the target owner to conduct security testing. I understand that Fink Security will not begin any work until this request is reviewed and approved by a human operator. This submission is logged with my IP address, timestamp, and contact details as a legal record of authorization.
+        </div>
+        <label class="auth-checkbox-row">
+          <input type="checkbox" id="authCheckbox" required onchange="updateSubmitBtn()">
+          <span class="auth-checkbox-label">I confirm I have legal authority over the specified targets and accept the terms above. I understand false authorization is a legal offense.</span>
+        </label>
+      </div>
+
+      <button type="button" class="submit-btn" id="submitBtn" onclick="handleSubmit()" disabled style="opacity:0.4;cursor:not-allowed;">
+        <span id="submitBtnText">CONFIRM AUTHORIZATION & SUBMIT →</span>
+      </button>
+
+      <div id="formStatus" style="display:none;"></div>
     </form>
   </div>
 </section>
+
+<script>
+// Show/hide target field based on service
+function updateAuthText() {
+  // Target field always visible — applies to most services
+  const targetGroup = document.getElementById('targetGroup');
+  if (targetGroup) targetGroup.style.display = 'flex';
+}
+
+// WHOIS lookup via public API
+let whoisTimer;
+function runWhois() {
+  const target = document.getElementById('target').value.trim();
+  const resultEl = document.getElementById('whoisResult');
+  clearTimeout(whoisTimer);
+  if (!target || target.length < 4) { resultEl.style.display = 'none'; return; }
+  
+  // Extract domain
+  const domain = target.replace(/^https?:\/\//,'').replace(/\/.*/,'').split(':')[0];
+  if (!domain.includes('.')) { resultEl.style.display = 'none'; return; }
+  
+  resultEl.style.display = 'block';
+  resultEl.className = 'whois-result whois-loading';
+  resultEl.innerHTML = '// running whois lookup...';
+  
+  whoisTimer = setTimeout(() => {
+    fetch(`https://rdap.org/domain/${domain}`)
+      .then(r => r.json())
+      .then(data => {
+        let registrant = 'Not publicly listed';
+        let org = '';
+        if (data.entities) {
+          for (const e of data.entities) {
+            if (e.roles && e.roles.includes('registrant')) {
+              if (e.vcardArray) {
+                for (const v of e.vcardArray[1]) {
+                  if (v[0] === 'fn') registrant = v[3];
+                  if (v[0] === 'org') org = v[3];
+                }
+              }
+            }
+          }
+        }
+        const created = data.events?.find(e => e.eventAction === 'registration')?.eventDate?.split('T')[0] || 'unknown';
+        resultEl.className = 'whois-result whois-found';
+        resultEl.innerHTML = `// whois: <strong>${domain}</strong> — registrant: <strong>${registrant}${org ? ' / ' + org : ''}</strong> — registered: ${created}`;
+        // Store for submission
+        resultEl.dataset.whoisData = JSON.stringify({ domain, registrant, org, created });
+      })
+      .catch(() => {
+        resultEl.className = 'whois-result whois-notfound';
+        resultEl.innerHTML = `// whois: could not retrieve data for <strong>${domain}</strong> — manual verification will be performed`;
+        resultEl.dataset.whoisData = JSON.stringify({ domain, registrant: 'lookup failed', org: '', created: '' });
+      });
+  }, 800);
+}
+
+function updateSubmitBtn() {
+  const checked = document.getElementById('authCheckbox').checked;
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = !checked;
+  btn.style.opacity = checked ? '1' : '0.4';
+  btn.style.cursor = checked ? 'pointer' : 'not-allowed';
+}
+
+async function handleSubmit() {
+  const btn = document.getElementById('submitBtn');
+  const statusEl = document.getElementById('formStatus');
+  const btnText = document.getElementById('submitBtnText');
+
+  // Validate required fields
+  const firstName = document.getElementById('firstName').value.trim();
+  const lastName = document.getElementById('lastName').value.trim();
+  const email = document.getElementById('email').value.trim();
+  if (!firstName || !lastName || !email) {
+    statusEl.style.display = 'block';
+    statusEl.className = 'form-status-error';
+    statusEl.textContent = '// Error: Name and email are required.';
+    return;
+  }
+
+  btn.disabled = true;
+  btnText.textContent = '// SUBMITTING...';
+  statusEl.style.display = 'none';
+
+  const service = document.getElementById('service').value;
+  const target = document.getElementById('target').value.trim();
+  const company = document.getElementById('company').value.trim();
+  const message = document.getElementById('message').value.trim();
+  const whoisEl = document.getElementById('whoisResult');
+  const whoisData = whoisEl.dataset.whoisData ? JSON.parse(whoisEl.dataset.whoisData) : {};
+  const timestamp = new Date().toISOString();
+
+  // Build Telegram message
+  const telegramMsg = `🦂 NEW AUTHORIZATION REQUEST\n\n` +
+    `👤 ${firstName} ${lastName}\n` +
+    `📧 ${email}\n` +
+    `🏢 ${company || 'Individual'}\n` +
+    `🔧 Service: ${service}\n` +
+    `🎯 Target: ${target || 'N/A'}\n\n` +
+    `🔍 WHOIS: ${whoisData.registrant || 'N/A'}${whoisData.org ? ' / ' + whoisData.org : ''}\n` +
+    `📅 Domain registered: ${whoisData.created || 'N/A'}\n\n` +
+    `💬 Message: ${message || 'None'}\n\n` +
+    `⏰ Submitted: ${timestamp}\n` +
+    `✅ Authorization checkbox: CONFIRMED\n\n` +
+    `Reply APPROVE or DENY to this request.`;
+
+  try {
+    // Send to Telegram
+    const TELEGRAM_BOT_TOKEN = 'ESTHER_BOT_TOKEN_HERE';
+    const TELEGRAM_CHAT_ID = 'ESTHER_CHAT_ID_HERE';
+    
+    const tgResponse = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: TELEGRAM_CHAT_ID,
+        text: telegramMsg,
+        parse_mode: 'HTML'
+      })
+    });
+
+    if (tgResponse.ok) {
+      // Also submit to Formspree as backup log
+      await fetch('https://formspree.io/f/mreanvvq', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          first_name: firstName, last_name: lastName,
+          email, company, service, target, message,
+          whois_registrant: whoisData.registrant || '',
+          authorization_confirmed: true, timestamp
+        })
+      });
+
+      document.getElementById('authForm').style.display = 'none';
+      statusEl.style.display = 'block';
+      statusEl.className = 'form-status-success';
+      statusEl.innerHTML = `<div class="success-icon">🦂</div>
+        <strong>// REQUEST RECEIVED</strong><br><br>
+        Your inquiry has been logged and sent to our operator for review.<br>
+        Authorization requests are reviewed within 24 hours.<br><br>
+        <span style="color:var(--muted);font-size:12px;">Ref: ${timestamp}</span>`;
+    } else {
+      throw new Error('Telegram delivery failed');
+    }
+  } catch(err) {
+    // Fallback to Formspree only
+    try {
+      await fetch('https://formspree.io/f/mreanvvq', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          first_name: firstName, last_name: lastName,
+          email, company, service, target, message,
+          authorization_confirmed: true, timestamp
+        })
+      });
+      document.getElementById('authForm').style.display = 'none';
+      statusEl.style.display = 'block';
+      statusEl.className = 'form-status-success';
+      statusEl.innerHTML = `<div class="success-icon">🦂</div>
+        <strong>// REQUEST RECEIVED</strong><br><br>
+        Your inquiry has been logged and will be reviewed within 24 hours.`;
+    } catch(e) {
+      btnText.textContent = 'CONFIRM AUTHORIZATION & SUBMIT →';
+      btn.disabled = false;
+      statusEl.style.display = 'block';
+      statusEl.className = 'form-status-error';
+      statusEl.textContent = '// Submission error. Please email hello@finksecurity.com directly.';
+    }
+  }
+}
+
+// Init on load
+updateAuthText();
+updateSubmitBtn();
+</script>
 
 <!-- FOOTER -->
 <footer>
