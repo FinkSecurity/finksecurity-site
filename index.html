@@ -1236,6 +1236,12 @@
         <div id="whoisResult" class="whois-result" style="display:none;"></div>
       </div>
 
+      <div class="field-group" id="h1ProgramGroup" style="display:none;">
+        <label>HackerOne Program Handle <span style="color:var(--muted);font-size:10px;">(e.g. playtika)</span></label>
+        <input type="text" name="h1_program" id="h1Program" placeholder="e.g. playtika, yahoo, shopify">
+        <div style="font-size:11px;color:var(--muted);margin-top:6px;font-family:var(--font-mono);">// ESTHER will fetch live scope directly from HackerOne before beginning work</div>
+      </div>
+
       <div class="field-group">
         <label>Message</label>
         <textarea rows="4" name="message" id="message" placeholder="Describe your environment, scope, or security concerns..."></textarea>
@@ -1268,11 +1274,15 @@
 </section>
 
 <script>
-// Show/hide target field based on service
+// Show/hide fields based on service selection
 function updateAuthText() {
-  // Target field always visible — applies to most services
-  const targetGroup = document.getElementById('targetGroup');
+  const service = document.getElementById('service').value;
+  const targetGroup    = document.getElementById('targetGroup');
+  const h1ProgramGroup = document.getElementById('h1ProgramGroup');
   if (targetGroup) targetGroup.style.display = 'flex';
+  if (h1ProgramGroup) {
+    h1ProgramGroup.style.display = service === 'Bug Bounty Hunting' ? 'flex' : 'none';
+  }
 }
 
 // WHOIS lookup via public API
@@ -1351,30 +1361,16 @@ async function handleSubmit() {
   btnText.textContent = '// SUBMITTING...';
   statusEl.style.display = 'none';
 
-  const service = document.getElementById('service').value;
-  const target = document.getElementById('target').value.trim();
-  const company = document.getElementById('company').value.trim();
-  const message = document.getElementById('message').value.trim();
-  const whoisEl = document.getElementById('whoisResult');
-  const whoisData = whoisEl.dataset.whoisData ? JSON.parse(whoisEl.dataset.whoisData) : {};
-  const timestamp = new Date().toISOString();
-
-  // Build Telegram message
-  const telegramMsg = `🦂 NEW AUTHORIZATION REQUEST\n\n` +
-    `👤 ${firstName} ${lastName}\n` +
-    `📧 ${email}\n` +
-    `🏢 ${company || 'Individual'}\n` +
-    `🔧 Service: ${service}\n` +
-    `🎯 Target: ${target || 'N/A'}\n\n` +
-    `🔍 WHOIS: ${whoisData.registrant || 'N/A'}${whoisData.org ? ' / ' + whoisData.org : ''}\n` +
-    `📅 Domain registered: ${whoisData.created || 'N/A'}\n\n` +
-    `💬 Message: ${message || 'None'}\n\n` +
-    `⏰ Submitted: ${timestamp}\n` +
-    `✅ Authorization checkbox: CONFIRMED\n\n` +
-    `Reply APPROVE or DENY to this request.`;
+  const service    = document.getElementById('service').value;
+  const target     = document.getElementById('target').value.trim();
+  const company    = document.getElementById('company').value.trim();
+  const message    = document.getElementById('message').value.trim();
+  const h1Program  = (document.getElementById('h1Program')?.value || '').trim();
+  const whoisEl    = document.getElementById('whoisResult');
+  const whoisData  = whoisEl.dataset.whoisData ? JSON.parse(whoisEl.dataset.whoisData) : {};
+  const timestamp  = new Date().toISOString();
 
   try {
-    // Send to Telegram
     const tgResponse = await fetch('https://api.finksecurity.com/notify', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1382,6 +1378,7 @@ async function handleSubmit() {
         first_name: firstName, last_name: lastName,
         email, company, service,
         target: target || 'N/A',
+        h1_program: h1Program || '',
         whois_registrant: whoisData.registrant || '',
         whois_org: whoisData.org || '',
         whois_created: whoisData.created || '',
@@ -1391,6 +1388,8 @@ async function handleSubmit() {
     });
 
     if (tgResponse.ok) {
+      const responseData = await tgResponse.json();
+      const taskId = responseData.task_id || '';
       document.getElementById('authForm').style.display = 'none';
       statusEl.style.display = 'block';
       statusEl.className = 'form-status-success';
@@ -1398,7 +1397,7 @@ async function handleSubmit() {
         <strong>// REQUEST RECEIVED</strong><br><br>
         Your inquiry has been logged and sent to our operator for review.<br>
         Authorization requests are reviewed within 24 hours.<br><br>
-        <span style="color:var(--muted);font-size:12px;">Ref: ${timestamp}</span>`;
+        ${taskId ? `<span style="font-family:var(--font-mono);color:var(--cyan);font-size:13px;">Ref: ${taskId}</span>` : `<span style="color:var(--muted);font-size:12px;">Ref: ${timestamp}</span>`}`;
     } else {
       throw new Error('Telegram delivery failed');
     }
