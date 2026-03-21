@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order Confirmed — Fink Security</title>
+<meta name="description" content="Your Fink Security order has been received. ESTHER is on it.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #0a0a12;
+    --bg2:       #0f1117;
+    --card:      #1e293b;
+    --cyan:      #22d3ee;
+    --cyan-lt:   #67e8f9;
+    --cyan-xlt:  #a5f3fc;
+    --cyan-dim:  #0e7490;
+    --green:     #86efac;
+    --green-dim: #166534;
+    --white:     #f3f4f6;
+    --muted:     #94a3b8;
+    --border:    rgba(34,211,238,0.18);
+    --glow:      0 0 24px rgba(34,211,238,0.35);
+    --font-mono: 'Share Tech Mono', monospace;
+    --font-head: 'Exo 2', sans-serif;
+    --font-body: 'Inter', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 1000; opacity: 0.4;
+  }
+
+  .grid-bg {
+    background-image:
+      linear-gradient(rgba(34,211,238,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(34,211,238,0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  @keyframes scan {
+    0% { transform: translateY(-100vh); }
+    100% { transform: translateY(100vh); }
+  }
+  .scanline {
+    position: fixed; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(transparent, rgba(34,211,238,0.08), transparent);
+    pointer-events: none; z-index: 999;
+    animation: scan 8s linear infinite;
+  }
+
+  @keyframes pulse {
+    0%,100% { opacity: 1; box-shadow: 0 0 8px var(--cyan); }
+    50% { opacity: 0.5; box-shadow: 0 0 20px var(--cyan); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes checkDraw {
+    from { stroke-dashoffset: 100; }
+    to   { stroke-dashoffset: 0; }
+  }
+
+  @keyframes ringExpand {
+    0%   { transform: scale(0.6); opacity: 0; }
+    60%  { transform: scale(1.05); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  @keyframes terminalType {
+    from { width: 0; }
+    to   { width: 100%; }
+  }
+
+  @keyframes blink {
+    0%,100% { opacity: 1; }
+    50%     { opacity: 0; }
+  }
+
+  /* NAV */
+  nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px; height: 68px;
+    background: rgba(10,10,18,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 12px;
+    text-decoration: none;
+  }
+  .nav-wordmark {
+    font-family: var(--font-head);
+    font-weight: 700; font-size: 18px;
+    letter-spacing: 0.06em; color: var(--white);
+  }
+  .nav-wordmark span { color: var(--cyan); }
+
+  /* MAIN */
+  main {
+    flex: 1;
+    display: flex; align-items: center; justify-content: center;
+    padding: 60px 24px;
+    position: relative;
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 600px; height: 600px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(134,239,172,0.08) 0%, transparent 70%);
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .container {
+    max-width: 680px; width: 100%;
+    position: relative; z-index: 2;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  /* CONFIRM BADGE */
+  .confirm-ring {
+    width: 96px; height: 96px;
+    margin: 0 auto 32px;
+    position: relative;
+    animation: ringExpand 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+  .confirm-ring svg { width: 100%; height: 100%; }
+  .confirm-ring .ring-bg {
+    fill: none; stroke: rgba(134,239,172,0.15); stroke-width: 3;
+  }
+  .confirm-ring .ring-fill {
+    fill: none; stroke: var(--green); stroke-width: 3;
+    stroke-dasharray: 100; stroke-dashoffset: 0;
+    stroke-linecap: round;
+    animation: checkDraw 0.6s ease 0.4s both;
+  }
+  .confirm-ring .check {
+    fill: none; stroke: var(--green); stroke-width: 3;
+    stroke-dasharray: 100; stroke-dashoffset: 100;
+    stroke-linecap: round; stroke-linejoin: round;
+    animation: checkDraw 0.5s ease 0.8s forwards;
+  }
+  .confirm-ring .center-dot {
+    fill: var(--green);
+    animation: ringExpand 0.4s ease 1s both;
+  }
+
+  .status-tag {
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 11px; letter-spacing: 0.2em;
+    color: var(--green); text-transform: uppercase;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    margin-bottom: 20px;
+    animation: fadeUp 0.5s ease 0.3s both; opacity: 0;
+  }
+  .status-tag::before {
+    content: '';
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 8px var(--green);
+    animation: pulse 2s infinite;
+  }
+
+  h1 {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: clamp(32px, 5vw, 52px);
+    line-height: 1.1; letter-spacing: 0.01em;
+    text-align: center; margin-bottom: 16px;
+    animation: fadeUp 0.5s ease 0.4s both; opacity: 0;
+  }
+  h1 .accent { color: var(--cyan); }
+
+  .subtitle {
+    text-align: center;
+    font-size: 16px; color: var(--muted);
+    line-height: 1.7; max-width: 480px;
+    margin: 0 auto 48px;
+    animation: fadeUp 0.5s ease 0.5s both; opacity: 0;
+  }
+
+  /* TERMINAL BLOCK */
+  .terminal {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    margin-bottom: 40px;
+    animation: fadeUp 0.5s ease 0.6s both; opacity: 0;
+  }
+  .terminal-bar {
+    display: flex; align-items: center; gap: 8px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(255,255,255,0.02);
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-r { background: #ff5f57; }
+  .dot-y { background: #febc2e; }
+  .dot-g { background: #28c840; }
+  .terminal-title {
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--muted); letter-spacing: 0.06em;
+    margin-left: 8px;
+  }
+  .terminal-body {
+    padding: 20px 20px 24px;
+    font-family: var(--font-mono); font-size: 13px;
+    line-height: 2;
+  }
+  .t-prompt { color: var(--cyan); }
+  .t-cmd    { color: var(--white); }
+  .t-out    { color: var(--muted); padding-left: 16px; }
+  .t-ok     { color: var(--green); padding-left: 16px; }
+  .t-warn   { color: #fbbf24; padding-left: 16px; }
+  .t-cursor {
+    display: inline-block; width: 8px; height: 14px;
+    background: var(--cyan); vertical-align: middle;
+    animation: blink 1s infinite;
+  }
+
+  /* STEPS */
+  .steps {
+    display: flex; flex-direction: column; gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 40px;
+    animation: fadeUp 0.5s ease 0.7s both; opacity: 0;
+  }
+  .step {
+    display: flex; align-items: flex-start; gap: 20px;
+    padding: 24px 28px;
+    background: var(--bg2);
+    transition: background 0.2s;
+  }
+  .step:hover { background: rgba(30,41,59,0.8); }
+  .step-num {
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--cyan-dim); letter-spacing: 0.1em;
+    min-width: 32px; padding-top: 2px;
+  }
+  .step-content h3 {
+    font-family: var(--font-head);
+    font-size: 15px; font-weight: 600;
+    margin-bottom: 4px; letter-spacing: 0.01em;
+  }
+  .step-content p {
+    font-size: 13px; color: var(--muted); line-height: 1.6;
+  }
+  .step-content p strong { color: var(--cyan-lt); font-weight: 500; }
+
+  /* CTA */
+  .cta-row {
+    display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+    animation: fadeUp 0.5s ease 0.8s both; opacity: 0;
+  }
+  .btn-primary {
+    padding: 14px 32px;
+    background: var(--cyan); color: var(--bg);
+    font-family: var(--font-mono); font-size: 13px;
+    font-weight: 700; letter-spacing: 0.08em;
+    border: none; cursor: pointer;
+    transition: box-shadow 0.25s;
+    text-decoration: none; display: inline-block;
+  }
+  .btn-primary:hover { box-shadow: 0 0 40px rgba(34,211,238,0.5); }
+  .btn-ghost {
+    padding: 14px 32px;
+    background: transparent; color: var(--cyan-lt);
+    font-family: var(--font-mono); font-size: 13px;
+    letter-spacing: 0.08em;
+    border: 1px solid rgba(34,211,238,0.35);
+    cursor: pointer; transition: border-color 0.2s, background 0.2s;
+    text-decoration: none; display: inline-block;
+  }
+  .btn-ghost:hover {
+    border-color: var(--cyan);
+    background: rgba(34,211,238,0.06);
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 28px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--bg);
+  }
+  .footer-logo {
+    font-family: var(--font-head); font-weight: 900;
+    font-size: 14px; letter-spacing: 0.08em; color: var(--white);
+  }
+  .footer-logo span { color: var(--cyan); }
+  .footer-copy {
+    font-family: var(--font-mono); font-size: 11px;
+    color: rgba(148,163,184,0.4); letter-spacing: 0.06em;
+  }
+
+  @media (max-width: 600px) {
+    nav { padding: 0 20px; }
+    main { padding: 40px 16px; }
+    .step { padding: 20px; gap: 14px; }
+    footer { flex-direction: column; gap: 16px; text-align: center; padding: 24px 20px; }
+    .cta-row { flex-direction: column; align-items: center; }
+  }
+</style>
+</head>
+<body>
+<div class="scanline"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="https://finksecurity.com">
+    <svg width="38" height="38" viewBox="0 0 100 116" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M50 4L96 22V62C96 84 73 105 50 112C27 105 4 84 4 62V22L50 4Z" fill="#1e293b" stroke="#22d3ee" stroke-width="3"/>
+      <path d="M50 18L82 31V60C82 76 67 91 50 97C33 91 18 76 18 60V31L50 18Z" fill="#0f1117" stroke="rgba(103,232,249,0.4)" stroke-width="1.5"/>
+      <circle cx="50" cy="56" r="6" fill="#22d3ee" stroke="#a5f3fc" stroke-width="1.5"/>
+      <line x1="50" y1="50" x2="50" y2="32" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="50" y1="50" x2="66" y2="42" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="50" y1="50" x2="70" y2="60" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="50" y1="50" x2="60" y2="76" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="50" y1="50" x2="34" y2="76" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="50" y1="50" x2="30" y2="60" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="50" y1="50" x2="34" y2="42" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    <span class="nav-wordmark">FINK<span> SECURITY</span></span>
+  </a>
+</nav>
+
+<!-- MAIN -->
+<main class="grid-bg">
+  <div class="hero-glow"></div>
+  <div class="container">
+
+    <!-- Check mark -->
+    <div class="confirm-ring">
+      <svg viewBox="0 0 100 100">
+        <circle class="ring-bg" cx="50" cy="50" r="44"/>
+        <circle class="ring-fill" cx="50" cy="50" r="44"
+          stroke-dasharray="276" stroke-dashoffset="276"
+          style="animation: checkDraw 0.8s ease 0.2s forwards;
+                 transform-origin: center; transform: rotate(-90deg);"/>
+        <polyline class="check" points="28,52 42,66 72,36"/>
+      </svg>
+    </div>
+
+    <div class="status-tag">PAYMENT CONFIRMED — ESTHER NOTIFIED</div>
+
+    <h1>You're in good hands.<br><span class="accent">ESTHER is on it.</span></h1>
+
+    <p class="subtitle">
+      Your order has been received and payment confirmed. 
+      ESTHER has been tasked and will begin work within 24 hours.
+      Here's what happens next.
+    </p>
+
+    <!-- Terminal -->
+    <div class="terminal">
+      <div class="terminal-bar">
+        <span class="dot dot-r"></span>
+        <span class="dot dot-y"></span>
+        <span class="dot dot-g"></span>
+        <span class="terminal-title">esther@finksec:~ — task dispatch</span>
+      </div>
+      <div class="terminal-body">
+        <div><span class="t-prompt">esther@finksec</span><span style="color:var(--muted)">:~$</span> <span class="t-cmd">poll-tasks --check</span></div>
+        <div class="t-ok">[+] New task received — payment verified</div>
+        <div class="t-ok">[+] Client context loaded</div>
+        <div class="t-out">[*] Initializing engagement modules...</div>
+        <div class="t-ok">[+] OSINT modules ready</div>
+        <div class="t-ok">[+] Report template loaded</div>
+        <div class="t-out">[*] Dispatching task to execution queue</div>
+        <div class="t-ok">[+] Task queued — estimated delivery: 24h</div>
+        <br>
+        <div><span class="t-prompt">esther@finksec</span><span style="color:var(--muted)">:~$</span> <span class="t-cursor"></span></div>
+      </div>
+    </div>
+
+    <!-- Steps -->
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <h3>Check your email</h3>
+          <p>A confirmation has been sent to the email you provided at checkout. 
+             This contains your <strong>order reference</strong> and a summary of what was purchased.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <h3>ESTHER gets to work</h3>
+          <p>ESTHER begins your assessment autonomously within <strong>24 hours</strong>. 
+             No further action needed from you — she has everything she needs.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <h3>Receive your report</h3>
+          <p>Your completed report will be delivered to your email as a <strong>PDF attachment</strong>. 
+             Most reports are delivered within 24 hours of purchase.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-content">
+          <h3>Questions?</h3>
+          <p>Email us at <strong>hello@finksecurity.com</strong> with your order reference 
+             and we'll get back to you within one business day.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-row">
+      <a href="https://finksecurity.com" class="btn-primary">BACK TO FINK SECURITY →</a>
+      <a href="https://estherops.tech" target="_blank" class="btn-ghost">READ ESTHER'S RESEARCH</a>
+    </div>
+
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">FINK<span> SECURITY</span></div>
+  <div class="footer-copy">© 2026 FINK SECURITY · finksecurity.com</div>
+</footer>
+
+</body>
+</html>
