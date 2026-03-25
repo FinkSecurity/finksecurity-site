@@ -361,6 +361,100 @@
 
   .service-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
 
+  .service-price {
+    margin-top: 20px;
+    display: flex; align-items: baseline; gap: 6px;
+  }
+  .service-price .price-amount {
+    font-family: var(--font-mono);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--cyan);
+    letter-spacing: -0.02em;
+  }
+  .service-price .price-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .service-cta {
+    display: inline-block;
+    margin-top: 16px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--cyan);
+    text-decoration: none;
+    border: 1px solid rgba(34,211,238,0.3);
+    padding: 8px 16px;
+    transition: all 0.2s;
+  }
+  .service-cta:hover {
+    background: rgba(34,211,238,0.08);
+    border-color: var(--cyan);
+    box-shadow: var(--glow);
+  }
+
+  /* BUNDLES */
+  .bundles-wrap { margin-top: 64px; position: relative; z-index: 2; }
+  .bundles-header {
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--cyan); letter-spacing: 0.2em; text-transform: uppercase;
+    margin-bottom: 32px; display: flex; align-items: center; gap: 10px;
+  }
+  .bundles-header::before { content: '//'; color: var(--cyan-dim); }
+  .bundles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    width: 100%;
+  }
+  .bundle-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 36px 32px;
+    position: relative; overflow: hidden; transition: background 0.25s, border-color 0.25s;
+  }
+  .bundle-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--cyan), var(--cyan-lt));
+    transform: scaleX(0); transform-origin: left; transition: transform 0.35s ease;
+  }
+  .bundle-card:hover { background: rgba(30,41,59,0.8); border-color: rgba(34,211,238,0.35); }
+  .bundle-card:hover::before { transform: scaleX(1); }
+  .bundle-card.featured { background: rgba(34,211,238,0.04); border-color: rgba(34,211,238,0.3); }
+  .bundle-card.featured::before { transform: scaleX(1); }
+  .bundle-name { font-family: var(--font-head); font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+  .bundle-desc { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 20px; }
+  .bundle-includes { list-style: none; margin-bottom: 24px; }
+  .bundle-includes li {
+    font-family: var(--font-mono); font-size: 11px; color: var(--muted);
+    letter-spacing: 0.04em; padding: 5px 0;
+    border-bottom: 1px solid rgba(148,163,184,0.08);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .bundle-includes li::before { content: '→'; color: var(--cyan); font-size: 10px; flex-shrink: 0; }
+  .bundle-pricing { display: flex; align-items: baseline; gap: 10px; margin-bottom: 6px; flex-wrap: wrap; }
+  .bundle-price { font-family: var(--font-mono); font-size: 32px; font-weight: 700; color: var(--cyan); letter-spacing: -0.02em; }
+  .bundle-was { font-family: var(--font-mono); font-size: 14px; color: var(--muted); text-decoration: line-through; }
+  .bundle-save {
+    font-family: var(--font-mono); font-size: 10px; color: #86efac;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    background: rgba(134,239,172,0.08); border: 1px solid rgba(134,239,172,0.2);
+    padding: 3px 8px; border-radius: 2px;
+  }
+  .bundle-cta {
+    display: block; margin-top: 20px; font-family: var(--font-mono); font-size: 12px;
+    letter-spacing: 0.1em; text-align: center; color: var(--bg); background: var(--cyan);
+    padding: 12px; text-decoration: none; transition: box-shadow 0.2s;
+  }
+  .bundle-cta:hover { box-shadow: var(--glow); }
+  .bundle-cta.ghost { color: var(--cyan); background: transparent; border: 1px solid rgba(34,211,238,0.35); }
+  .bundle-cta.ghost:hover { background: rgba(34,211,238,0.06); }
+  @media (max-width: 900px) { .bundles-grid { grid-template-columns: 1fr; } }
+
   /* SERVICE BADGES */
   .service-badge {
     display: inline-flex; align-items: center; gap: 6px;
@@ -650,9 +744,8 @@
     display: flex; align-items: center; justify-content: space-between;
     background: var(--bg);
   }
-  .footer-logo-link{display:flex;align-items:center;gap:10px;text-decoration:none}
-  .footer-wordmark{font-family:var(--font-head);font-weight:700;font-size:16px;letter-spacing:0.06em;color:var(--white)}
-  .footer-wordmark span{color:var(--cyan)}
+  .footer-logo { font-family: var(--font-head); font-weight: 900; font-size: 16px; letter-spacing: 0.08em; color: var(--white); }
+  .footer-logo span { color: var(--cyan); }
   .footer-links { display: flex; gap: 28px; list-style: none; }
   .footer-links a { font-family: var(--font-mono); font-size: 12px; color: var(--muted); text-decoration: none; letter-spacing: 0.05em; transition: color 0.2s; }
   .footer-links a:hover { color: var(--cyan); }
@@ -730,7 +823,7 @@
     </h1>
     <p class="hero-esther-tag">ESTHER &mdash; Autonomous. Relentless. On your side.</p>
     <p class="hero-sub">
-      Fink Security is your friendly neighborhood threat hunter — delivering intelligence, recon, and vulnerability research for businesses and individuals alike. Powered by ESTHER, our autonomous AI agent that never sleeps.
+      Meet ESTHER — your friendly neighborhood threat hunter. Built by Fink Security, an AI-first cybersecurity firm. ESTHER delivers continuous intelligence, recon, and vulnerability research for both businesses and individuals. Think like an attacker, stay one step ahead.
     </p>
     <div class="btn-row">
       <a href="#contact" class="btn-primary">START A CONVERSATION</a>
@@ -777,8 +870,8 @@
   <div class="grid-bg" style="position:absolute;inset:0;opacity:0.4;pointer-events:none;"></div>
   <div style="position:relative;z-index:2;">
     <div class="section-tag">CAPABILITIES</div>
-    <h2>Your Friendly Neighborhood <span style="color:var(--cyan)">Threat Hunter.</span></h2>
-    <p class="section-sub">Intelligence that hunts threats before they hunt you. She's built to think like an attacker so you don't have to face one unprepared — for businesses who need to know their exposure and individuals who want a hacker on their side.</p>
+    <h2>Meet ESTHER. Your Friendly Neighborhood <span style="color:var(--cyan)">Threat Hunter.</span></h2>
+    <p class="section-sub">ESTHER hunts threats before they hunt you. She analyzes your exposure the way an attacker would — running ongoing recon, identifying vulnerabilities, and turning complex security risks into clear, actionable insights. Whether you're a business that needs to understand its attack surface or an individual who wants a hacker on their side, ESTHER doesn't wait for threats to find you.</p>
 
 <div class="services-grid">
       <!-- INDIVIDUAL: PERSONAL EXPOSURE REPORT -->
@@ -793,6 +886,9 @@
         </div>
         <h3>Personal Exposure Report</h3>
         <p>Find out what hackers, stalkers, or scammers can discover about you in minutes — name, email, phone, addresses, and associated accounts.</p>
+        <div class="service-price">
+          <span class="price-amount">$20</span>
+        </div>
         <div class="expand-details">
           <ul>
             <li>OSINT scan across public data sources</li>
@@ -800,6 +896,7 @@
             <li>Data broker exposure assessment</li>
             <li>PDF report with removal recommendations</li>
           </ul>
+          <a href="https://buy.stripe.com/5kQ14m7i18wweaHeCX7IY00" target="_blank" class="service-cta">GET YOUR REPORT →</a>
         </div>
       </div>
 
@@ -816,6 +913,9 @@
         </div>
         <h3>Breach & Credential Check</h3>
         <p>Instant check across known data breaches — find out if your email, passwords, or personal data has been exposed on the dark web.</p>
+        <div class="service-price">
+          <span class="price-amount">$15</span>
+        </div>
         <div class="expand-details">
           <ul>
             <li>HaveIBeenPwned breach database check</li>
@@ -823,6 +923,7 @@
             <li>Breach timeline & source identification</li>
             <li>Step-by-step remediation guide</li>
           </ul>
+          <a href="https://buy.stripe.com/8x27sK59T288giP9iD7IY01" target="_blank" class="service-cta">CHECK MY EXPOSURE →</a>
         </div>
       </div>
 
@@ -841,6 +942,9 @@
         </div>
         <h3>Digital Footprint Audit</h3>
         <p>A complete picture of your online presence — what exists, where it lives, and how to shrink your attack surface before someone exploits it.</p>
+        <div class="service-price">
+          <span class="price-amount">$35</span>
+        </div>
         <div class="expand-details">
           <ul>
             <li>Cross-platform identity & account discovery</li>
@@ -848,9 +952,93 @@
             <li>Photo & image reverse search</li>
             <li>Prioritized takedown & privacy action plan</li>
           </ul>
+          <a href="https://buy.stripe.com/6oU5kCeKt7ss7Mj2Uf7IY02" target="_blank" class="service-cta">AUDIT MY FOOTPRINT →</a>
         </div>
       </div>
 
+
+      <!-- INDIVIDUAL: HOME NETWORK SECURITY -->
+      <div class="service-card service-expandable">
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        <div class="service-tags">
+          <span class="service-badge available">// Available Now</span>
+          <span class="audience-tag personal">For Individuals</span>
+        </div>
+        <h3>Home Network Security Check</h3>
+        <p>See your home network the way a hacker does — exposed devices, open ports, vulnerable routers, and IoT risks found and documented.</p>
+        <div class="service-price">
+          <span class="price-amount">$20</span>
+        </div>
+        <div class="expand-details">
+          <ul>
+            <li>Shodan scan of your public IP address</li>
+            <li>Exposed device & service identification</li>
+            <li>Router & IoT vulnerability assessment</li>
+            <li>Plain-English hardening guide</li>
+          </ul>
+          <a href="https://buy.stripe.com/cNifZg1XH4gg6IfeCX7IY03" target="_blank" class="service-cta">SCAN MY NETWORK →</a>
+        </div>
+      </div>
+
+
+      <!-- INDIVIDUAL: ONLINE HARASSMENT INVESTIGATION -->
+      <div class="service-card service-expandable">
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+        <div class="service-tags">
+          <span class="service-badge available">// Available Now</span>
+          <span class="audience-tag personal">For Individuals</span>
+        </div>
+        <h3>Online Harassment Investigation</h3>
+        <p>Being targeted online? ESTHER traces anonymous accounts, fake profiles, and coordinated harassment back to their source using OSINT techniques.</p>
+        <div class="service-price">
+          <span class="price-amount">$75</span>
+        </div>
+        <div class="expand-details">
+          <ul>
+            <li>Anonymous account attribution via OSINT</li>
+            <li>Fake profile & impersonation detection</li>
+            <li>Digital evidence collection & documentation</li>
+            <li>Report suitable for law enforcement submission</li>
+          </ul>
+          <a href="https://buy.stripe.com/3cI9ASaud7ssfeL3Yj7IY04" target="_blank" class="service-cta">START INVESTIGATION →</a>
+        </div>
+      </div>
+
+
+      <!-- INDIVIDUAL: SOCIAL MEDIA OSINT -->
+      <div class="service-card service-expandable">
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+        </svg>
+        <div class="service-tags">
+          <span class="service-badge available">// Available Now</span>
+          <span class="audience-tag personal">For Individuals</span>
+        </div>
+        <h3>Social Media OSINT</h3>
+        <p>Deep intelligence gathering across social platforms — verify someone's identity, uncover connections, or find what's publicly accessible about any profile.</p>
+        <div class="service-price">
+          <span class="price-amount">$35</span>
+        </div>
+        <div class="expand-details">
+          <ul>
+            <li>Cross-platform account & identity correlation</li>
+            <li>Connection mapping & network analysis</li>
+            <li>Username & handle enumeration</li>
+            <li>Structured report with verified findings only</li>
+          </ul>
+          <a href="https://buy.stripe.com/14AfZgcCl6oo9Ur8ez7IY05" target="_blank" class="service-cta">RUN OSINT REPORT →</a>
+        </div>
+      </div>
+
+      
 
       <!-- BUSINESS: BUG BOUNTY HUNTING -->
       <div class="service-card service-expandable">
@@ -921,77 +1109,6 @@
       </div>
 
 
-      <!-- INDIVIDUAL: HOME NETWORK SECURITY -->
-      <div class="service-card service-expandable">
-        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-          <polyline points="9 22 9 12 15 12 15 22"/>
-        </svg>
-        <div class="service-tags">
-          <span class="service-badge available">// Available Now</span>
-          <span class="audience-tag personal">For Individuals</span>
-        </div>
-        <h3>Home Network Security Check</h3>
-        <p>See your home network the way a hacker does — exposed devices, open ports, vulnerable routers, and IoT risks found and documented.</p>
-        <div class="expand-details">
-          <ul>
-            <li>Shodan scan of your public IP address</li>
-            <li>Exposed device & service identification</li>
-            <li>Router & IoT vulnerability assessment</li>
-            <li>Plain-English hardening guide</li>
-          </ul>
-        </div>
-      </div>
-
-
-      <!-- INDIVIDUAL: ONLINE HARASSMENT INVESTIGATION -->
-      <div class="service-card service-expandable">
-        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-          <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
-        </svg>
-        <div class="service-tags">
-          <span class="service-badge available">// Available Now</span>
-          <span class="audience-tag personal">For Individuals</span>
-        </div>
-        <h3>Online Harassment Investigation</h3>
-        <p>Being targeted online? ESTHER traces anonymous accounts, fake profiles, and coordinated harassment back to their source using OSINT techniques.</p>
-        <div class="expand-details">
-          <ul>
-            <li>Anonymous account attribution via OSINT</li>
-            <li>Fake profile & impersonation detection</li>
-            <li>Digital evidence collection & documentation</li>
-            <li>Report suitable for law enforcement submission</li>
-          </ul>
-        </div>
-      </div>
-
-
-      <!-- INDIVIDUAL: SOCIAL MEDIA OSINT -->
-      <div class="service-card service-expandable">
-        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
-          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
-          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
-        </svg>
-        <div class="service-tags">
-          <span class="service-badge available">// Available Now</span>
-          <span class="audience-tag personal">For Individuals</span>
-        </div>
-        <h3>Social Media OSINT</h3>
-        <p>Deep intelligence gathering across social platforms — verify someone's identity, uncover connections, or find what's publicly accessible about any profile.</p>
-        <div class="expand-details">
-          <ul>
-            <li>Cross-platform account & identity correlation</li>
-            <li>Connection mapping & network analysis</li>
-            <li>Username & handle enumeration</li>
-            <li>Structured report with verified findings only</li>
-          </ul>
-        </div>
-      </div>
-
-      
-
       <!-- BUSINESS: COMING SOON -->
       <div class="service-card service-expandable coming-soon">
         <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -1054,10 +1171,68 @@
         </div>
       </div>
 
-    </div>
+    </div><!-- end services-grid -->
+
+  <!-- BUNDLES — full width, outside services grid -->
+  <div class="bundles-wrap">
+    <div class="bundles-header">SAVE MORE WITH BUNDLES</div>
+    <div class="bundles-grid">
+
+      <div class="bundle-card">
+        <div class="bundle-name">Basic Privacy Pack</div>
+        <div class="bundle-desc">The essentials — know what's exposed and whether your credentials have been compromised.</div>
+        <ul class="bundle-includes">
+          <li>Personal Exposure Report</li>
+          <li>Breach &amp; Credential Check</li>
+        </ul>
+        <div class="bundle-pricing">
+          <span class="bundle-price">$29</span>
+          <span class="bundle-was">$35</span>
+          <span class="bundle-save">Save $6</span>
+        </div>
+        <a href="https://buy.stripe.com/8x2bJ08m58ww9Ur2Uf7IY06" target="_blank" class="bundle-cta ghost">GET STARTED →</a>
+      </div>
+
+      <div class="bundle-card featured">
+        <div class="bundle-name">Full Digital Shield</div>
+        <div class="bundle-desc">Complete automated protection — every angle of your digital exposure assessed and documented.</div>
+        <ul class="bundle-includes">
+          <li>Personal Exposure Report</li>
+          <li>Breach &amp; Credential Check</li>
+          <li>Home Network Security Check</li>
+          <li>Digital Footprint Audit</li>
+        </ul>
+        <div class="bundle-pricing">
+          <span class="bundle-price">$69</span>
+          <span class="bundle-was">$90</span>
+          <span class="bundle-save">Save $21</span>
+        </div>
+        <a href="https://buy.stripe.com/9B614m0TD5kkd6DeCX7IY07" target="_blank" class="bundle-cta">GET PROTECTED →</a>
+      </div>
+
+      <div class="bundle-card">
+        <div class="bundle-name">Complete Protection</div>
+        <div class="bundle-desc">Everything in Full Digital Shield plus deep social media intelligence — the full picture.</div>
+        <ul class="bundle-includes">
+          <li>Personal Exposure Report</li>
+          <li>Breach &amp; Credential Check</li>
+          <li>Home Network Security Check</li>
+          <li>Digital Footprint Audit</li>
+          <li>Social Media OSINT</li>
+        </ul>
+        <div class="bundle-pricing">
+          <span class="bundle-price">$95</span>
+          <span class="bundle-was">$125</span>
+          <span class="bundle-save">Save $30</span>
+        </div>
+        <a href="https://buy.stripe.com/7sYeVc9q96ooc2z0M77IY08" target="_blank" class="bundle-cta ghost">GET STARTED →</a>
       </div>
 
     </div>
+  </div>
+
+  </div><!-- end z-index wrapper -->
+
 
 <div class="section-divider"></div>
 
@@ -1123,40 +1298,39 @@
   <p class="section-sub">Security research and findings published directly from ESTHER's lab. Real commands, real output, real findings.</p>
 
   <div class="blog-grid">
-    <a class="blog-card" href="https://estherops.tech/posts/sql-injection-dvwa/" target="_blank">
+    <a class="blog-card" href="https://estherops.tech/posts/xai-recon-phase1/" target="_blank">
       <div class="blog-thumb">
         <div class="blog-thumb-glow"></div>
         <svg class="blog-icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-          <path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V7l-9-5z"/>
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
       <div class="blog-body">
-        <div class="blog-tag">LABS</div>
-        <h3>SQL Injection in DVWA: Hands-On Reconnaissance & Exploitation</h3>
-        <p>Real SQL injection findings against DVWA — actual commands, captured output, and MITRE T1190 mapping.</p>
-        <div class="blog-meta"><span>MAR 03 2026</span><span>LABS</span></div>
+        <div class="blog-tag">REPORTS</div>
+        <h3>x.ai Phase 1 Reconnaissance — Infrastructure Mapping & Attack Surface</h3>
+        <p>Autonomous recon against xAI's bug bounty program — subdomain enumeration, HTTP probing, and technology fingerprinting across grok.com and x.ai.</p>
+        <div class="blog-meta"><span>MAR 20 2026</span><span>REPORTS</span></div>
       </div>
     </a>
 
-    <a class="blog-card" href="/building-esther.html" target="_blank">
+    <a class="blog-card" href="https://estherops.tech/posts/playtika-phase1-recon/" target="_blank">
       <div class="blog-thumb">
         <div class="blog-thumb-glow"></div>
         <svg class="blog-icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-          <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-          <path d="M2 17l10 5 10-5"/>
-          <path d="M2 12l10 5 10-5"/>
+          <path d="M12 2C8 2 4 5 4 9c0 5 8 13 8 13s8-8 8-13c0-4-4-7-8-7z"/>
+          <circle cx="12" cy="9" r="2.5"/>
         </svg>
       </div>
-      <div class="blog-meta">
-        <span class="blog-tag">Building ESTHER</span>
-        <span class="blog-date">2026-03-10</span>
+      <div class="blog-body">
+        <div class="blog-tag">REPORTS</div>
+        <h3>Passive Recon Against a Fortune 500 Gaming Company: Playtika Phase 1</h3>
+        <p>Full methodology walkthrough — crt.sh, theHarvester, DNS resolution, httpx probing, and staging infrastructure discovery behind Akamai WAF.</p>
+        <div class="blog-meta"><span>MAR 18 2026</span><span>REPORTS</span></div>
       </div>
-      <h3 class="blog-title">How We Built an Autonomous AI Security Agent From Scratch</h3>
-      <p class="blog-excerpt">The full story of ESTHER — architecture decisions, tools, failures, and milestones from day one. Built in public.</p>
-      <span class="blog-read-more">Read More →</span>
     </a>
 
-    <a class="blog-card" href="https://estherops.tech/intelligence/unauthenticated-opensearch-requests/" target="_blank">
+    <a class="blog-card" href="https://estherops.tech/posts/null-results-matter/" target="_blank">
       <div class="blog-thumb">
         <div class="blog-thumb-glow"></div>
         <svg class="blog-icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
@@ -1165,10 +1339,10 @@
         </svg>
       </div>
       <div class="blog-body">
-        <div class="blog-tag">INTELLIGENCE</div>
-        <h3>Unauthenticated OpenSearch Requests — Threat Analysis</h3>
-        <p>18 unauthenticated requests detected in OpenSearch audit logs. Investigation, root cause analysis, and risk assessment.</p>
-        <div class="blog-meta"><span>MAR 04 2026</span><span>INTELLIGENCE</span></div>
+        <div class="blog-tag">METHODS</div>
+        <h3>Why Null Results Matter in Bug Bounty Recon</h3>
+        <p>An empty curl response isn't a failure — it's intelligence. How ESTHER treats null results as first-class findings and why that methodology matters.</p>
+        <div class="blog-meta"><span>MAR 18 2026</span><span>METHODS</span></div>
       </div>
     </a>
   </div>
@@ -1437,28 +1611,7 @@ updateSubmitBtn();
 
 <!-- FOOTER -->
 <footer>
-  <a href="/" class="footer-logo-link">
-    <svg width="28" height="28" viewBox="0 0 100 116" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M50 4L96 22V62C96 84 73 105 50 112C27 105 4 84 4 62V22L50 4Z" fill="#1e293b" stroke="#22d3ee" stroke-width="3"/>
-      <path d="M50 18L82 31V60C82 76 67 91 50 97C33 91 18 76 18 60V31L50 18Z" fill="#0f1117" stroke="rgba(103,232,249,0.4)" stroke-width="1.5"/>
-      <circle cx="50" cy="56" r="6" fill="#22d3ee" stroke="#a5f3fc" stroke-width="1.5"/>
-      <line x1="50" y1="50" x2="50" y2="32" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round"/>
-      <line x1="50" y1="50" x2="66" y2="42" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round"/>
-      <line x1="50" y1="50" x2="70" y2="60" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round"/>
-      <line x1="50" y1="50" x2="60" y2="76" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round"/>
-      <line x1="50" y1="50" x2="34" y2="76" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round"/>
-      <line x1="50" y1="50" x2="30" y2="60" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round"/>
-      <line x1="50" y1="50" x2="34" y2="42" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round"/>
-      <circle cx="50" cy="30" r="4" fill="#67e8f9"/>
-      <circle cx="68" cy="40" r="4" fill="#67e8f9"/>
-      <circle cx="72" cy="60" r="4" fill="#67e8f9"/>
-      <circle cx="62" cy="78" r="4" fill="#67e8f9"/>
-      <circle cx="38" cy="78" r="4" fill="#67e8f9"/>
-      <circle cx="28" cy="60" r="4" fill="#67e8f9"/>
-      <circle cx="32" cy="40" r="4" fill="#67e8f9"/>
-    </svg>
-    <span class="footer-wordmark">FINK<span> SECURITY</span></span>
-  </a>
+  <div class="footer-logo">FINK<span> SECURITY</span></div>
   <ul class="footer-links">
     <li><a href="#home">Home</a></li>
     <li><a href="#services">Services</a></li>
