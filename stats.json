@@ -1,8 +1,8 @@
 {
   "period": "Last 30 Days",
-  "cves_analyzed": 6,
+  "cves_analyzed": 5,
   "hosts_enumerated": 1,
-  "critical_findings": 100,
+  "critical_findings": 103,
   "threat_intel_queries": 10,
-  "updated": "2026-03-23"
+  "updated": "2026-03-30"
 }
