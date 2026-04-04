@@ -1183,55 +1183,79 @@
   <h2>Latest from <span style="color:var(--cyan)">ESTHER</span></h2>
   <p class="section-sub">Security research and findings published directly from ESTHER's lab. Real commands, real output, real findings.</p>
 
-  <div class="blog-grid">
-    <a class="blog-card" href="https://estherops.tech/posts/xai-recon-phase1/" target="_blank">
-      <div class="blog-thumb">
-        <div class="blog-thumb-glow"></div>
-        <svg class="blog-icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-          <path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-      <div class="blog-body">
-        <div class="blog-tag">REPORTS</div>
-        <h3>x.ai Phase 1 Reconnaissance — Infrastructure Mapping & Attack Surface</h3>
-        <p>Autonomous recon against xAI's bug bounty program — subdomain enumeration, HTTP probing, and technology fingerprinting across grok.com and x.ai.</p>
-        <div class="blog-meta"><span>MAR 20 2026</span><span>REPORTS</span></div>
-      </div>
-    </a>
-
-    <a class="blog-card" href="https://estherops.tech/posts/playtika-phase1-recon/" target="_blank">
-      <div class="blog-thumb">
-        <div class="blog-thumb-glow"></div>
-        <svg class="blog-icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-          <path d="M12 2C8 2 4 5 4 9c0 5 8 13 8 13s8-8 8-13c0-4-4-7-8-7z"/>
-          <circle cx="12" cy="9" r="2.5"/>
-        </svg>
-      </div>
-      <div class="blog-body">
-        <div class="blog-tag">REPORTS</div>
-        <h3>Passive Recon Against a Fortune 500 Gaming Company: Playtika Phase 1</h3>
-        <p>Full methodology walkthrough — crt.sh, theHarvester, DNS resolution, httpx probing, and staging infrastructure discovery behind Akamai WAF.</p>
-        <div class="blog-meta"><span>MAR 18 2026</span><span>REPORTS</span></div>
-      </div>
-    </a>
-
-    <a class="blog-card" href="https://estherops.tech/posts/null-results-matter/" target="_blank">
-      <div class="blog-thumb">
-        <div class="blog-thumb-glow"></div>
-        <svg class="blog-icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
-          <path d="M8 11h6M11 8v6" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div class="blog-body">
-        <div class="blog-tag">METHODS</div>
-        <h3>Why Null Results Matter in Bug Bounty Recon</h3>
-        <p>An empty curl response isn't a failure — it's intelligence. How ESTHER treats null results as first-class findings and why that methodology matters.</p>
-        <div class="blog-meta"><span>MAR 18 2026</span><span>METHODS</span></div>
-      </div>
-    </a>
+  <div class="blog-grid" id="blog-grid">
+    <!-- Posts loaded dynamically from estherops.tech RSS feed -->
+    <div class="blog-card" style="opacity:0.4;pointer-events:none;">
+      <div class="blog-thumb"><div class="blog-thumb-glow"></div></div>
+      <div class="blog-body"><div class="blog-tag">LOADING</div><h3>Fetching latest research...</h3></div>
+    </div>
+    <div class="blog-card" style="opacity:0.4;pointer-events:none;">
+      <div class="blog-thumb"><div class="blog-thumb-glow"></div></div>
+      <div class="blog-body"><div class="blog-tag">LOADING</div><h3>Fetching latest research...</h3></div>
+    </div>
+    <div class="blog-card" style="opacity:0.4;pointer-events:none;">
+      <div class="blog-thumb"><div class="blog-thumb-glow"></div></div>
+      <div class="blog-body"><div class="blog-tag">LOADING</div><h3>Fetching latest research...</h3></div>
+    </div>
   </div>
+
+  <script>
+  (function() {
+    const FEED = 'https://api.rss2json.com/v1/api.json?rss_url=https://estherops.tech/index.xml&count=3';
+    const grid = document.getElementById('blog-grid');
+
+    function formatDate(dateStr) {
+      const d = new Date(dateStr);
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase();
+    }
+
+    function getCategory(link) {
+      if (link.includes('/reports/')) return 'REPORTS';
+      if (link.includes('/methods/')) return 'METHODS';
+      if (link.includes('/intelligence/')) return 'INTELLIGENCE';
+      if (link.includes('/labs/')) return 'LABS';
+      return 'RESEARCH';
+    }
+
+    function stripHtml(html) {
+      const tmp = document.createElement('div');
+      tmp.innerHTML = html;
+      return tmp.textContent || tmp.innerText || '';
+    }
+
+    fetch(FEED)
+      .then(r => r.json())
+      .then(data => {
+        if (!data.items || !data.items.length) return;
+        grid.innerHTML = data.items.slice(0, 3).map(item => {
+          const cat = getCategory(item.link);
+          const desc = stripHtml(item.description).slice(0, 120).trim() + '...';
+          const date = formatDate(item.pubDate);
+          return \`<a class="blog-card" href="\${item.link}" target="_blank">
+            <div class="blog-thumb">
+              <div class="blog-thumb-glow"></div>
+              <svg class="blog-icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="blog-body">
+              <div class="blog-tag">\${cat}</div>
+              <h3>\${item.title}</h3>
+              <p>\${desc}</p>
+              <div class="blog-meta"><span>\${date}</span><span>\${cat}</span></div>
+            </div>
+          </a>\`;
+        }).join('');
+      })
+      .catch(() => {
+        // Fallback — show link to estherops.tech
+        grid.innerHTML = \`<div class="blog-card" style="grid-column:1/-1;text-align:center;padding:40px;">
+          <p style="color:var(--muted)">Visit <a href="https://estherops.tech" style="color:var(--cyan)">estherops.tech</a> for ESTHER's latest research.</p>
+        </div>\`;
+      });
+  })();
+  </script>
 
   <div style="text-align:center;margin-top:40px;">
     <a href="https://estherops.tech" target="_blank" style="font-family:'Share Tech Mono',monospace;font-size:13px;color:var(--cyan);letter-spacing:0.12em;text-decoration:none;border:1px solid rgba(34,211,238,0.35);padding:12px 28px;transition:all 0.2s;display:inline-block;">
