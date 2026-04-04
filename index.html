@@ -1201,7 +1201,19 @@
 
   <script>
   (function() {
-    const FEED = 'https://api.rss2json.com/v1/api.json?rss_url=https://estherops.tech/index.xml&count=3';
+    const FEED = 'https://estherops.tech/index.xml';
+
+    function parseRSS(xml) {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(xml, 'text/xml');
+      const items = [...doc.querySelectorAll('item')].slice(0, 3);
+      return items.map(item => ({
+        title: item.querySelector('title')?.textContent || '',
+        link: item.querySelector('link')?.textContent || '',
+        pubDate: item.querySelector('pubDate')?.textContent || '',
+        description: item.querySelector('description')?.textContent || ''
+      }));
+    }
     const grid = document.getElementById('blog-grid');
 
     function formatDate(dateStr) {
@@ -1224,10 +1236,11 @@
     }
 
     fetch(FEED)
-      .then(r => r.json())
-      .then(data => {
-        if (!data.items || !data.items.length) return;
-        grid.innerHTML = data.items.slice(0, 3).map(item => {
+      .then(r => r.text())
+      .then(xml => {
+        const items = parseRSS(xml);
+        if (!items.length) return;
+        grid.innerHTML = items.map(item => {
           const cat = getCategory(item.link);
           const desc = stripHtml(item.description).slice(0, 120).trim() + '...';
           const date = formatDate(item.pubDate);
