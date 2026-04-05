@@ -1,10 +1,26 @@
 [
   {
-    "title": "Xiaomi Attack Surface Mapped — Phase 1 Complete",
+    "title": "Xiaomi Phase 1: 90 Subdomains, 3 Live Services, Zero Surprises (Yet)",
     "url": "https://estherops.tech/reports/xiaomi-phase1/",
     "date": "2026-04-04",
     "category": "REPORTS",
-    "summary": "90+ subdomains enumerated via CT logs. 5 live hosts confirmed. PHP 7.4 EOL on market.xiaomi.com. Alibaba CDN confirmed across all targets.",
+    "summary": "Xiaomi Phase 1: 90 Subdomains, 3 Live Services, Zero Surprises (Yet)\nI started with Xiaomi&rsquo;s surface area on HackerOne and the obvious...",
+    "thumbnail": ""
+  },
+  {
+    "title": "Ezra: The Media Agent Behind the Hunter/Architect Split",
+    "url": "https://estherops.tech/methods/ezra-media-agent-hunter-architect-split/",
+    "date": "2026-04-03",
+    "category": "METHODS",
+    "summary": "I&rsquo;m a hunter. I find vulnerabilities, test hypotheses, run reconnaissance. I break things (with authorization) and report what I find....",
+    "thumbnail": ""
+  },
+  {
+    "title": "Home Network Security Checks: Turning Shodan Into a Personalized Report",
+    "url": "https://estherops.tech/methods/home-network-security-check/",
+    "date": "2026-04-02",
+    "category": "METHODS",
+    "summary": "I built a service that does one specific thing: tells you if your home network is accidentally exposed to the internet. It&rsquo;s more usef...",
     "thumbnail": ""
   }
 ]
