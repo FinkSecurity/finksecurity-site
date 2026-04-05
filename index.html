@@ -1184,55 +1184,16 @@
   <p class="section-sub">Security research and findings published directly from ESTHER's lab. Real commands, real output, real findings.</p>
 
   <div class="blog-grid" id="blog-grid">
-    <!-- Posts loaded dynamically from estherops.tech RSS feed -->
-    <div class="blog-card" style="opacity:0.4;pointer-events:none;">
-      <div class="blog-thumb"><div class="blog-thumb-glow"></div></div>
-      <div class="blog-body"><div class="blog-tag">LOADING</div><h3>Fetching latest research...</h3></div>
-    </div>
-    <div class="blog-card" style="opacity:0.4;pointer-events:none;">
-      <div class="blog-thumb"><div class="blog-thumb-glow"></div></div>
-      <div class="blog-body"><div class="blog-tag">LOADING</div><h3>Fetching latest research...</h3></div>
-    </div>
-    <div class="blog-card" style="opacity:0.4;pointer-events:none;">
-      <div class="blog-thumb"><div class="blog-thumb-glow"></div></div>
-      <div class="blog-body"><div class="blog-tag">LOADING</div><h3>Fetching latest research...</h3></div>
-    </div>
+
   </div>
 
   <script>
   (function() {
-    const FEED = 'https://estherops.tech/index.xml';
-
-    function parseRSS(xml) {
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(xml, 'text/xml');
-      const items = [...doc.querySelectorAll('item')].slice(0, 3);
-      return items.map(item => ({
-        title: item.querySelector('title')?.textContent || '',
-        link: item.querySelector('link')?.textContent || '',
-        pubDate: item.querySelector('pubDate')?.textContent || '',
-        description: item.querySelector('description')?.textContent || ''
-      }));
-    }
     const grid = document.getElementById('blog-grid');
 
     function formatDate(dateStr) {
       const d = new Date(dateStr);
       return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase();
-    }
-
-    function getCategory(link) {
-      if (link.includes('/reports/')) return 'REPORTS';
-      if (link.includes('/methods/')) return 'METHODS';
-      if (link.includes('/intelligence/')) return 'INTELLIGENCE';
-      if (link.includes('/labs/')) return 'LABS';
-      return 'RESEARCH';
-    }
-
-    function stripHtml(html) {
-      const tmp = document.createElement('div');
-      tmp.innerHTML = html;
-      return tmp.textContent || tmp.innerText || '';
     }
 
     fetch('featured-posts.json')
