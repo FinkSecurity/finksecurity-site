@@ -1202,7 +1202,7 @@
         if (!posts.length) return;
         grid.innerHTML = posts.map(post => {
           const date = formatDate(post.date);
-          return \`<a class="blog-card" href="\${post.url}" target="_blank">
+          return `<a class="blog-card" href="${post.url}" target="_blank">
             <div class="blog-thumb">
               <div class="blog-thumb-glow"></div>
               <svg class="blog-icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
@@ -1211,18 +1211,18 @@
               </svg>
             </div>
             <div class="blog-body">
-              <div class="blog-tag">\${post.category}</div>
-              <h3>\${post.title}</h3>
-              <p>\${post.summary}</p>
-              <div class="blog-meta"><span>\${date}</span><span>\${post.category}</span></div>
+              <div class="blog-tag">${post.category}</div>
+              <h3>${post.title}</h3>
+              <p>${post.summary}</p>
+              <div class="blog-meta"><span>${date}</span><span>${post.category}</span></div>
             </div>
-          </a>\`;
+          </a>`;
         }).join('');
       })
       .catch(() => {
-        grid.innerHTML = \`<div class="blog-card" style="grid-column:1/-1;text-align:center;padding:40px;">
+        grid.innerHTML = `<div class="blog-card" style="grid-column:1/-1;text-align:center;padding:40px;">
           <p style="color:var(--muted)">Visit <a href="https://estherops.tech" style="color:var(--cyan)">estherops.tech</a> for ESTHER's latest research.</p>
-        </div>\`;
+        </div>`;
       });
   })();
   </script>
