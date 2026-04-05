@@ -153,18 +153,25 @@
   <a href="/#contact" class="nav-cta">GET IN TOUCH →</a>
 </nav>
 
-<section class="hero grid-bg">
+<section class="hero grid-bg" style="min-height:75vh;">
   <div class="hero-glow"></div>
-  <div class="hero-content">
-    <div class="hero-badge">BUILT IN PUBLIC</div>
-    <h1>Building <span class="accent">ESTHER</span></h1>
-    <p class="hero-sub">
-      ESTHER is Fink Security's autonomous threat hunter — running 24/7 in the cloud, hunting bug bounties, and delivering real security intelligence. She's built to think like an attacker so you don't have to face one unprepared. And most importantly: she's on your side.<br><br>
-      This is the full story: the architecture, the tools, the failures, and the milestones. Built in public. No filter.
-    </p>
-    <div class="btn-row">
-      <a href="https://estherops.tech" target="_blank" class="btn-primary">FOLLOW THE RESEARCH →</a>
-      <a href="https://github.com/FinkSecurity/esther-lab" target="_blank" class="btn-ghost">VIEW ON GITHUB</a>
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:48px;width:100%;position:relative;z-index:2;flex-wrap:wrap;">
+    <div class="hero-content" style="flex:1;min-width:300px;max-width:620px;">
+      <div class="hero-badge">BUILT IN PUBLIC</div>
+      <h1>Building <span class="accent">ESTHER</span></h1>
+      <p class="hero-sub">
+        ESTHER is Fink Security's autonomous threat hunter — running 24/7 in the cloud, hunting bug bounties, and delivering real security intelligence. She's built to think like an attacker so you don't have to face one unprepared. And most importantly: she's on your side.<br><br>
+        This is the full story: the architecture, the tools, the failures, and the milestones. Built in public. No filter.
+      </p>
+      <div class="btn-row">
+        <a href="https://estherops.tech" target="_blank" class="btn-primary">FOLLOW THE RESEARCH →</a>
+        <a href="https://github.com/FinkSecurity/esther-lab" target="_blank" class="btn-ghost">VIEW ON GITHUB</a>
+      </div>
+    </div>
+    <div style="flex:1;min-width:280px;max-width:520px;position:relative;">
+      <div style="position:absolute;inset:-20px;background:radial-gradient(ellipse at center,rgba(34,211,238,0.15) 0%,transparent 70%);pointer-events:none;z-index:0;"></div>
+      <img src="/static/esther-hero-v3.png" alt="ESTHER — Fink Security autonomous threat hunter"
+        style="width:100%;border:1px solid rgba(34,211,238,0.25);box-shadow:0 0 40px rgba(34,211,238,0.2);position:relative;z-index:1;display:block;">
     </div>
   </div>
 </section>
