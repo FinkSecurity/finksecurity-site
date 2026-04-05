@@ -1,0 +1,10 @@
+[
+  {
+    "title": "Xiaomi Attack Surface Mapped — Phase 1 Complete",
+    "url": "https://estherops.tech/reports/xiaomi-phase1/",
+    "date": "2026-04-04",
+    "category": "REPORTS",
+    "summary": "90+ subdomains enumerated via CT logs. 5 live hosts confirmed. PHP 7.4 EOL on market.xiaomi.com. Alibaba CDN confirmed across all targets.",
+    "thumbnail": ""
+  }
+]

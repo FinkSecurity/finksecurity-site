@@ -1235,16 +1235,13 @@
       return tmp.textContent || tmp.innerText || '';
     }
 
-    fetch(FEED)
-      .then(r => r.text())
-      .then(xml => {
-        const items = parseRSS(xml);
-        if (!items.length) return;
-        grid.innerHTML = items.map(item => {
-          const cat = getCategory(item.link);
-          const desc = stripHtml(item.description).slice(0, 120).trim() + '...';
-          const date = formatDate(item.pubDate);
-          return \`<a class="blog-card" href="\${item.link}" target="_blank">
+    fetch('featured-posts.json')
+      .then(r => r.json())
+      .then(posts => {
+        if (!posts.length) return;
+        grid.innerHTML = posts.map(post => {
+          const date = formatDate(post.date);
+          return \`<a class="blog-card" href="\${post.url}" target="_blank">
             <div class="blog-thumb">
               <div class="blog-thumb-glow"></div>
               <svg class="blog-icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
@@ -1253,16 +1250,15 @@
               </svg>
             </div>
             <div class="blog-body">
-              <div class="blog-tag">\${cat}</div>
-              <h3>\${item.title}</h3>
-              <p>\${desc}</p>
-              <div class="blog-meta"><span>\${date}</span><span>\${cat}</span></div>
+              <div class="blog-tag">\${post.category}</div>
+              <h3>\${post.title}</h3>
+              <p>\${post.summary}</p>
+              <div class="blog-meta"><span>\${date}</span><span>\${post.category}</span></div>
             </div>
           </a>\`;
         }).join('');
       })
       .catch(() => {
-        // Fallback — show link to estherops.tech
         grid.innerHTML = \`<div class="blog-card" style="grid-column:1/-1;text-align:center;padding:40px;">
           <p style="color:var(--muted)">Visit <a href="https://estherops.tech" style="color:var(--cyan)">estherops.tech</a> for ESTHER's latest research.</p>
         </div>\`;
