@@ -675,6 +675,7 @@
     box-shadow: 0 0 0 2px rgba(34,211,238,0.1);
   }
   .field-group select option { background: var(--card); }
+  .field-group select optgroup { background: var(--card); color: var(--cyan-dim); font-size: 11px; }
   .submit-btn {
     width: 100%; padding: 16px; background: var(--cyan); color: var(--bg);
     border: none; font-family: var(--font-mono); font-size: 15px; font-weight: 700;
@@ -1000,8 +1001,6 @@
         </div>
       </div>
 
-
-
       <!-- COMING SOON: CLOUD SECURITY -->
       <div class="service-card service-expandable coming-soon">
         <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -1283,19 +1282,21 @@
       <div class="field-group">
         <label>Service Interest</label>
         <select name="service" id="service" onchange="updateAuthText()">
-          <option value="Threat Intelligence">Threat Intelligence</option>
-          <option value="OSINT Reconnaissance">OSINT Reconnaissance</option>
-          <option value="Bug Bounty Hunting">Bug Bounty Hunting</option>
-          <option value="Personal Exposure Report">Personal Exposure Report</option>
-          <option value="Breach & Credential Check">Breach &amp; Credential Check</option>
-          <option value="Digital Footprint Audit">Digital Footprint Audit</option>
-          <option value="Home Network Security Check">Home Network Security Check</option>
-          <option value="Online Harassment Investigation">Online Harassment Investigation</option>
-          <option value="Social Media OSINT">Social Media OSINT</option>
-          <option value="Penetration Testing">Penetration Testing</option>
-          <option value="Vulnerability Research">Vulnerability Research</option>
-          <option value="Cloud Security Review">Cloud Security Review</option>
-          <option value="Other">Other</option>
+          <option value="" disabled selected>— Select a service —</option>
+          <optgroup label="// Consumer Services">
+            <option value="Breach &amp; Credential Check">Breach &amp; Credential Check — $15</option>
+            <option value="Personal Exposure Report">Personal Exposure Report — $29</option>
+            <option value="Home Network Security Check">Home Network Security Check — $20</option>
+            <option value="Privacy Essentials Bundle">Privacy Essentials Bundle — $39</option>
+            <option value="Full Shield Bundle">Full Shield Bundle — $55</option>
+          </optgroup>
+          <optgroup label="// Business &amp; Custom">
+            <option value="Custom Security Assessment">Custom Security Assessment</option>
+            <option value="Bug Bounty Hunting">Bug Bounty Hunting</option>
+          </optgroup>
+          <optgroup label="// Other">
+            <option value="Other">Other</option>
+          </optgroup>
         </select>
       </div>
 
