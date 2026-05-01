@@ -1281,7 +1281,7 @@
 
       <div class="field-group">
         <label>Service Interest</label>
-        <select name="service" id="service" onchange="updateAuthText()">
+        <select name="service" id="service" onchange="updateFormFields()">
           <option value="" disabled selected>— Select a service —</option>
           <optgroup label="// Consumer Services">
             <option value="Breach &amp; Credential Check">Breach &amp; Credential Check — $15</option>
@@ -1300,12 +1300,14 @@
         </select>
       </div>
 
-      <div class="field-group" id="targetGroup">
-        <label>Target Domain / Asset <span style="color:var(--muted);font-size:10px;">(if applicable)</span></label>
+      <!-- Target field: only for offensive/custom services -->
+      <div class="field-group" id="targetGroup" style="display:none;">
+        <label>Target Domain / Asset</label>
         <input type="text" name="target" id="target" placeholder="e.g. example.com, IP range, or social media profile" oninput="runWhois()">
         <div id="whoisResult" class="whois-result" style="display:none;"></div>
       </div>
 
+      <!-- HackerOne field: only for Bug Bounty Hunting -->
       <div class="field-group" id="h1ProgramGroup" style="display:none;">
         <label>HackerOne Program Handle <span style="color:var(--muted);font-size:10px;">(e.g. playtika)</span></label>
         <input type="text" name="h1_program" id="h1Program" placeholder="e.g. playtika, yahoo, shopify">
@@ -1317,25 +1319,39 @@
         <textarea rows="4" name="message" id="message" placeholder="Describe your environment, scope, or security concerns..."></textarea>
       </div>
 
-      <!-- AUTHORIZATION AGREEMENT -->
-      <div class="auth-agreement" id="authAgreement">
+      <!-- AUTHORIZATION AGREEMENT: offensive/custom services only -->
+      <div class="auth-agreement" id="authAgreement" style="display:none;">
         <div class="auth-agreement-header">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
           </svg>
           // AUTHORIZATION & LEGAL AGREEMENT
         </div>
-        <div class="auth-agreement-body" id="authAgreementText">
+        <div class="auth-agreement-body">
           By submitting this form, I confirm that I have legal authority over the targets specified above, or have been explicitly authorized in writing by the target owner to conduct security testing. I understand that Fink Security will not begin any work until this request is reviewed and approved by a human operator. This submission is logged with my IP address, timestamp, and contact details as a legal record of authorization.
         </div>
         <label class="auth-checkbox-row">
-          <input type="checkbox" id="authCheckbox" required onchange="updateSubmitBtn()">
+          <input type="checkbox" id="authCheckbox" onchange="updateSubmitBtn()">
           <span class="auth-checkbox-label">I confirm I have legal authority over the specified targets and accept the terms above. I understand false authorization is a legal offense.</span>
         </label>
       </div>
 
+      <!-- PRIVACY NOTE: consumer services only -->
+      <div class="auth-agreement" id="privacyNote" style="display:none;">
+        <div class="auth-agreement-header">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+          // PRIVACY & DATA USE
+        </div>
+        <div class="auth-agreement-body">
+          Your personal information is used solely to generate and deliver your security report. We do not sell, share, or retain your data beyond what is required to complete your order. All reports are delivered securely to the email address provided.
+        </div>
+      </div>
+
       <button type="button" class="submit-btn" id="submitBtn" onclick="handleSubmit()" disabled style="opacity:0.4;cursor:not-allowed;">
-        <span id="submitBtnText">CONFIRM AUTHORIZATION & SUBMIT →</span>
+        <span id="submitBtnText">SUBMIT →</span>
       </button>
 
       <div id="formStatus" style="display:none;"></div>
@@ -1344,14 +1360,63 @@
 </section>
 
 <script>
-// Show/hide fields based on service selection
-function updateAuthText() {
+// Services that require target + auth agreement
+const OFFENSIVE_SERVICES = new Set(['Custom Security Assessment', 'Bug Bounty Hunting']);
+// Services that are consumer (self-directed) purchases
+const CONSUMER_SERVICES = new Set([
+  'Breach & Credential Check',
+  'Personal Exposure Report',
+  'Home Network Security Check',
+  'Privacy Essentials Bundle',
+  'Full Shield Bundle'
+]);
+
+function updateFormFields() {
   const service = document.getElementById('service').value;
-  const targetGroup    = document.getElementById('targetGroup');
-  const h1ProgramGroup = document.getElementById('h1ProgramGroup');
-  if (targetGroup) targetGroup.style.display = 'flex';
-  if (h1ProgramGroup) {
-    h1ProgramGroup.style.display = service === 'Bug Bounty Hunting' ? 'flex' : 'none';
+  const isOffensive = OFFENSIVE_SERVICES.has(service);
+  const isConsumer  = CONSUMER_SERVICES.has(service);
+
+  // Target domain field
+  const targetGroup = document.getElementById('targetGroup');
+  targetGroup.style.display = isOffensive ? 'flex' : 'none';
+  if (!isOffensive) {
+    document.getElementById('target').value = '';
+    document.getElementById('whoisResult').style.display = 'none';
+  }
+
+  // HackerOne field
+  const h1Group = document.getElementById('h1ProgramGroup');
+  h1Group.style.display = service === 'Bug Bounty Hunting' ? 'flex' : 'none';
+  if (service !== 'Bug Bounty Hunting') {
+    document.getElementById('h1Program').value = '';
+  }
+
+  // Auth agreement vs privacy note
+  document.getElementById('authAgreement').style.display = isOffensive ? 'block' : 'none';
+  document.getElementById('privacyNote').style.display   = isConsumer  ? 'block' : 'none';
+
+  // Reset checkbox when switching away from offensive
+  if (!isOffensive) {
+    document.getElementById('authCheckbox').checked = false;
+  }
+
+  // Button label
+  const btnText = document.getElementById('submitBtnText');
+  btnText.textContent = isOffensive
+    ? 'CONFIRM AUTHORIZATION & SUBMIT →'
+    : 'SUBMIT INQUIRY →';
+
+  // Update submit button state
+  updateSubmitBtn();
+
+  // Update message placeholder
+  const msgEl = document.getElementById('message');
+  if (isOffensive) {
+    msgEl.placeholder = 'Describe your environment, scope, or security concerns...';
+  } else if (isConsumer) {
+    msgEl.placeholder = 'Any additional context or questions about your order (optional)...';
+  } else {
+    msgEl.placeholder = 'Tell us what you need...';
   }
 }
 
@@ -1404,11 +1469,23 @@ function runWhois() {
 }
 
 function updateSubmitBtn() {
-  const checked = document.getElementById('authCheckbox').checked;
+  const service = document.getElementById('service').value;
+  const isOffensive = OFFENSIVE_SERVICES.has(service);
+  const hasService = !!service;
+
+  let enabled;
+  if (!hasService) {
+    enabled = false;
+  } else if (isOffensive) {
+    enabled = document.getElementById('authCheckbox').checked;
+  } else {
+    enabled = true; // consumer & other: no checkbox required
+  }
+
   const btn = document.getElementById('submitBtn');
-  btn.disabled = !checked;
-  btn.style.opacity = checked ? '1' : '0.4';
-  btn.style.cursor = checked ? 'pointer' : 'not-allowed';
+  btn.disabled = !enabled;
+  btn.style.opacity = enabled ? '1' : '0.4';
+  btn.style.cursor = enabled ? 'pointer' : 'not-allowed';
 }
 
 async function handleSubmit() {
@@ -1420,10 +1497,11 @@ async function handleSubmit() {
   const firstName = document.getElementById('firstName').value.trim();
   const lastName = document.getElementById('lastName').value.trim();
   const email = document.getElementById('email').value.trim();
-  if (!firstName || !lastName || !email) {
+  const service = document.getElementById('service').value;
+  if (!firstName || !lastName || !email || !service) {
     statusEl.style.display = 'block';
     statusEl.className = 'form-status-error';
-    statusEl.textContent = '// Error: Name and email are required.';
+    statusEl.textContent = '// Error: Name, email, and service selection are required.';
     return;
   }
 
@@ -1431,7 +1509,7 @@ async function handleSubmit() {
   btnText.textContent = '// SUBMITTING...';
   statusEl.style.display = 'none';
 
-  const service    = document.getElementById('service').value;
+  const isOffensive = OFFENSIVE_SERVICES.has(service);
   const target     = document.getElementById('target').value.trim();
   const company    = document.getElementById('company').value.trim();
   const message    = document.getElementById('message').value.trim();
@@ -1453,7 +1531,9 @@ async function handleSubmit() {
         whois_org: whoisData.org || '',
         whois_created: whoisData.created || '',
         message: message || 'None',
-        authorization_confirmed: true
+        authorization_confirmed: isOffensive
+          ? document.getElementById('authCheckbox').checked
+          : true
       })
     });
 
@@ -1500,7 +1580,7 @@ async function handleSubmit() {
 }
 
 // Init on load
-updateAuthText();
+updateFormFields();
 updateSubmitBtn();
 </script>
 
